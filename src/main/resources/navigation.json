@@ -1,0 +1,1196 @@
+{
+ "entries": {
+  "home": {
+   "key": "home",
+   "label": "Home",
+   "icon": "home",
+   "feature": null,
+   "anyOf": []
+  },
+  "today": {
+   "key": "today",
+   "label": "Today",
+   "icon": "today",
+   "feature": null,
+   "anyOf": []
+  },
+  "more": {
+   "key": "more",
+   "label": "More",
+   "icon": "menu",
+   "feature": null,
+   "anyOf": []
+  },
+  "approvals": {
+   "key": "approvals",
+   "label": "Approvals",
+   "icon": "approval",
+   "feature": null,
+   "anyOf": []
+  },
+  "messages": {
+   "key": "messages",
+   "label": "Messages",
+   "icon": "chat",
+   "feature": "COMMUNICATION",
+   "anyOf": []
+  },
+  "reports": {
+   "key": "reports",
+   "label": "Reports",
+   "icon": "bar_chart",
+   "feature": "REPORTS",
+   "anyOf": []
+  },
+  "pulse": {
+   "key": "pulse",
+   "label": "Pulse",
+   "icon": "monitor_heart",
+   "feature": null,
+   "anyOf": []
+  },
+  "overview": {
+   "key": "overview",
+   "label": "Overview",
+   "icon": "dashboard",
+   "feature": null,
+   "anyOf": []
+  },
+  "branches": {
+   "key": "branches",
+   "label": "Branches",
+   "icon": "account_tree",
+   "feature": null,
+   "anyOf": []
+  },
+  "finance": {
+   "key": "finance",
+   "label": "Finance",
+   "icon": "payments",
+   "feature": "FEE_MANAGEMENT",
+   "anyOf": [
+    "FEE_MANAGEMENT_REPORT"
+   ]
+  },
+  "academics": {
+   "key": "academics",
+   "label": "Academics",
+   "icon": "school",
+   "feature": "ACADEMICS",
+   "anyOf": [
+    "ACADEMICS_REPORT",
+    "ACADEMICS_VIEW"
+   ]
+  },
+  "hostel": {
+   "key": "hostel",
+   "label": "Hostel",
+   "icon": "hotel",
+   "feature": "HOSTEL",
+   "anyOf": []
+  },
+  "people": {
+   "key": "people",
+   "label": "People & access",
+   "icon": "group",
+   "feature": null,
+   "anyOf": [
+    "USER_MANAGE"
+   ]
+  },
+  "roles": {
+   "key": "roles",
+   "label": "Roles & permissions",
+   "icon": "admin_panel_settings",
+   "feature": null,
+   "anyOf": [
+    "ROLE_VIEW",
+    "ROLE_MANAGE"
+   ]
+  },
+  "consents": {
+   "key": "consents",
+   "label": "Consent forms",
+   "icon": "fact_check",
+   "feature": "CONSENT",
+   "anyOf": [
+    "CONSENT_FORM_MANAGE"
+   ]
+  },
+  "settings": {
+   "key": "settings",
+   "label": "Settings",
+   "icon": "settings",
+   "feature": null,
+   "anyOf": []
+  },
+  "staff": {
+   "key": "staff",
+   "label": "Staff",
+   "icon": "badge",
+   "feature": null,
+   "anyOf": []
+  },
+  "cover": {
+   "key": "cover",
+   "label": "Staff cover",
+   "icon": "swap_horiz",
+   "feature": "TIMETABLE",
+   "anyOf": [
+    "ACADEMICS_MANAGE",
+    "STAFF_PRESENCE_MANAGE"
+   ]
+  },
+  "staff_presence": {
+   "key": "staff_presence",
+   "label": "Staff presence",
+   "icon": "how_to_reg",
+   "feature": "STAFF_PRESENCE",
+   "anyOf": [
+    "STAFF_PRESENCE_VIEW",
+    "STAFF_PRESENCE_MANAGE"
+   ]
+  },
+  "incidents": {
+   "key": "incidents",
+   "label": "Incidents",
+   "icon": "report",
+   "feature": "DISCIPLINE",
+   "anyOf": []
+  },
+  "communication": {
+   "key": "communication",
+   "label": "Communication",
+   "icon": "campaign",
+   "feature": "COMMUNICATION",
+   "anyOf": [
+    "COMMUNICATION_MANAGE"
+   ]
+  },
+  "calendar": {
+   "key": "calendar",
+   "label": "Calendar",
+   "icon": "calendar_month",
+   "feature": "CALENDAR",
+   "anyOf": []
+  },
+  "dashboard": {
+   "key": "dashboard",
+   "label": "Dashboard",
+   "icon": "dashboard",
+   "feature": null,
+   "anyOf": []
+  },
+  "students": {
+   "key": "students",
+   "label": "{learner:plural}",
+   "icon": "groups",
+   "feature": "ACADEMICS",
+   "anyOf": [
+    "ACADEMICS_VIEW",
+    "ACADEMICS_MANAGE"
+   ]
+  },
+  "classes_subjects": {
+   "key": "classes_subjects",
+   "label": "{unit:plural} & subjects",
+   "icon": "class",
+   "feature": "ACADEMICS",
+   "anyOf": [
+    "ACADEMICS_MANAGE"
+   ]
+  },
+  "timetable": {
+   "key": "timetable",
+   "label": "Timetable",
+   "icon": "grid_view",
+   "feature": "TIMETABLE",
+   "anyOf": []
+  },
+  "exams": {
+   "key": "exams",
+   "label": "Exams",
+   "icon": "quiz",
+   "feature": "EXAMS",
+   "anyOf": []
+  },
+  "fees_setup": {
+   "key": "fees_setup",
+   "label": "Fees setup",
+   "icon": "request_quote",
+   "feature": "FEE_MANAGEMENT",
+   "anyOf": [
+    "FEE_MANAGEMENT_MANAGE"
+   ]
+  },
+  "records": {
+   "key": "records",
+   "label": "Records & certificates",
+   "icon": "workspace_premium",
+   "feature": "RECORDS",
+   "anyOf": []
+  },
+  "import": {
+   "key": "import",
+   "label": "Bulk import",
+   "icon": "upload_file",
+   "feature": "BULK_IMPORT",
+   "anyOf": []
+  },
+  "devices": {
+   "key": "devices",
+   "label": "Devices & posts",
+   "icon": "devices",
+   "feature": null,
+   "anyOf": [
+    "STAFF_PRESENCE_MANAGE",
+    "SECURITY_MANAGE"
+   ]
+  },
+  "counter": {
+   "key": "counter",
+   "label": "Counter",
+   "icon": "point_of_sale",
+   "feature": "FEE_MANAGEMENT",
+   "anyOf": [
+    "FEE_MANAGEMENT_MANAGE"
+   ]
+  },
+  "collect": {
+   "key": "collect",
+   "label": "Collect",
+   "icon": "point_of_sale",
+   "feature": "FEE_MANAGEMENT",
+   "anyOf": [
+    "FEE_MANAGEMENT_MANAGE"
+   ]
+  },
+  "demands": {
+   "key": "demands",
+   "label": "Demands",
+   "icon": "receipt_long",
+   "feature": "FEE_MANAGEMENT",
+   "anyOf": []
+  },
+  "collections": {
+   "key": "collections",
+   "label": "Collections",
+   "icon": "savings",
+   "feature": "FEE_MANAGEMENT",
+   "anyOf": []
+  },
+  "concessions": {
+   "key": "concessions",
+   "label": "Concessions",
+   "icon": "percent",
+   "feature": "FEE_MANAGEMENT",
+   "anyOf": []
+  },
+  "refunds": {
+   "key": "refunds",
+   "label": "Refunds",
+   "icon": "undo",
+   "feature": "FEE_MANAGEMENT",
+   "anyOf": []
+  },
+  "expenses": {
+   "key": "expenses",
+   "label": "Expenses",
+   "icon": "receipt",
+   "feature": "EXPENSES",
+   "anyOf": []
+  },
+  "petty_cash": {
+   "key": "petty_cash",
+   "label": "Petty cash",
+   "icon": "account_balance_wallet",
+   "feature": "EXPENSES",
+   "anyOf": []
+  },
+  "budgets": {
+   "key": "budgets",
+   "label": "Budgets",
+   "icon": "pie_chart",
+   "feature": "EXPENSES",
+   "anyOf": []
+  },
+  "payroll": {
+   "key": "payroll",
+   "label": "Payroll",
+   "icon": "payments",
+   "feature": "HR_PAYROLL",
+   "anyOf": []
+  },
+  "vendors": {
+   "key": "vendors",
+   "label": "Vendors & invoices",
+   "icon": "storefront",
+   "feature": "EXPENSES",
+   "anyOf": []
+  },
+  "tally": {
+   "key": "tally",
+   "label": "Reports & Tally export",
+   "icon": "ios_share",
+   "feature": "REPORTS",
+   "anyOf": []
+  },
+  "my_requests": {
+   "key": "my_requests",
+   "label": "My requests",
+   "icon": "outbox",
+   "feature": null,
+   "anyOf": []
+  },
+  "scan": {
+   "key": "scan",
+   "label": "Scan",
+   "icon": "qr_code_scanner",
+   "feature": null,
+   "anyOf": []
+  },
+  "leave": {
+   "key": "leave",
+   "label": "Leave",
+   "icon": "event_busy",
+   "feature": "HR_PAYROLL",
+   "anyOf": []
+  },
+  "roster": {
+   "key": "roster",
+   "label": "Roster",
+   "icon": "calendar_view_week",
+   "feature": "STAFF_PRESENCE",
+   "anyOf": []
+  },
+  "presence_exceptions": {
+   "key": "presence_exceptions",
+   "label": "Presence exceptions",
+   "icon": "rule",
+   "feature": "STAFF_PRESENCE",
+   "anyOf": []
+  },
+  "recruitment": {
+   "key": "recruitment",
+   "label": "Recruitment",
+   "icon": "person_search",
+   "feature": "HR_PAYROLL",
+   "anyOf": []
+  },
+  "pipeline": {
+   "key": "pipeline",
+   "label": "Pipeline",
+   "icon": "view_kanban",
+   "feature": "ADMISSIONS",
+   "anyOf": []
+  },
+  "follow_ups": {
+   "key": "follow_ups",
+   "label": "Follow-ups",
+   "icon": "call",
+   "feature": "ADMISSIONS",
+   "anyOf": []
+  },
+  "applications": {
+   "key": "applications",
+   "label": "Applications",
+   "icon": "assignment",
+   "feature": "ADMISSIONS",
+   "anyOf": []
+  },
+  "tests": {
+   "key": "tests",
+   "label": "Tests & interviews",
+   "icon": "fact_check",
+   "feature": "ADMISSIONS",
+   "anyOf": []
+  },
+  "seat_matrix": {
+   "key": "seat_matrix",
+   "label": "Seat matrix",
+   "icon": "event_seat",
+   "feature": "ADMISSIONS",
+   "anyOf": []
+  },
+  "campaigns": {
+   "key": "campaigns",
+   "label": "Campaigns",
+   "icon": "campaign",
+   "feature": "ADMISSIONS",
+   "anyOf": []
+  },
+  "add_enquiry": {
+   "key": "add_enquiry",
+   "label": "Add enquiry",
+   "icon": "person_add",
+   "feature": "ADMISSIONS",
+   "anyOf": []
+  },
+  "visitors": {
+   "key": "visitors",
+   "label": "Visitors",
+   "icon": "badge",
+   "feature": "GATE",
+   "anyOf": []
+  },
+  "pickups": {
+   "key": "pickups",
+   "label": "Pickups & passes",
+   "icon": "directions_walk",
+   "feature": "GATE",
+   "anyOf": []
+  },
+  "parcels": {
+   "key": "parcels",
+   "label": "Parcels",
+   "icon": "inventory_2",
+   "feature": "GATE",
+   "anyOf": []
+  },
+  "enquiries": {
+   "key": "enquiries",
+   "label": "Enquiries",
+   "icon": "contact_phone",
+   "feature": "ADMISSIONS",
+   "anyOf": []
+  },
+  "log": {
+   "key": "log",
+   "label": "Log",
+   "icon": "list_alt",
+   "feature": null,
+   "anyOf": []
+  },
+  "register": {
+   "key": "register",
+   "label": "Register",
+   "icon": "checklist",
+   "feature": "ATTENDANCE",
+   "anyOf": [
+    "ATTENDANCE_SCOPED",
+    "ATTENDANCE_MANAGE"
+   ]
+  },
+  "classwork": {
+   "key": "classwork",
+   "label": "Classwork",
+   "icon": "menu_book",
+   "feature": "HOMEWORK",
+   "anyOf": []
+  },
+  "attendance": {
+   "key": "attendance",
+   "label": "Attendance",
+   "icon": "event_available",
+   "feature": "ATTENDANCE",
+   "anyOf": []
+  },
+  "fees": {
+   "key": "fees",
+   "label": "Fees",
+   "icon": "payments",
+   "feature": "FEE_MANAGEMENT",
+   "anyOf": []
+  },
+  "learning": {
+   "key": "learning",
+   "label": "Learning",
+   "icon": "auto_stories",
+   "feature": "HOMEWORK",
+   "anyOf": []
+  },
+  "pickup_people": {
+   "key": "pickup_people",
+   "label": "Pickup people",
+   "icon": "family_restroom",
+   "feature": "GATE",
+   "anyOf": []
+  },
+  "assistants": {
+   "key": "assistants",
+   "label": "Connected assistants",
+   "icon": "smart_toy",
+   "feature": "ASSISTANT_MCP",
+   "anyOf": []
+  },
+  "results": {
+   "key": "results",
+   "label": "Results",
+   "icon": "grading",
+   "feature": "EXAMS",
+   "anyOf": []
+  },
+  "id_card": {
+   "key": "id_card",
+   "label": "ID card",
+   "icon": "badge",
+   "feature": "RECORDS",
+   "anyOf": []
+  },
+  "placements": {
+   "key": "placements",
+   "label": "Placements",
+   "icon": "work",
+   "feature": "PLACEMENTS",
+   "anyOf": []
+  },
+  "rooms": {
+   "key": "rooms",
+   "label": "Rooms & allocation",
+   "icon": "bed",
+   "feature": "HOSTEL",
+   "anyOf": []
+  },
+  "travel_groups": {
+   "key": "travel_groups",
+   "label": "Travel groups",
+   "icon": "train",
+   "feature": "HOSTEL",
+   "anyOf": []
+  },
+  "policies": {
+   "key": "policies",
+   "label": "Policies",
+   "icon": "policy",
+   "feature": "HOSTEL",
+   "anyOf": [
+    "HOSTEL_MANAGE"
+   ]
+  },
+  "roll_call": {
+   "key": "roll_call",
+   "label": "Roll call",
+   "icon": "fact_check",
+   "feature": "HOSTEL",
+   "anyOf": []
+  },
+  "residents": {
+   "key": "residents",
+   "label": "Residents",
+   "icon": "groups",
+   "feature": "HOSTEL",
+   "anyOf": []
+  },
+  "outings": {
+   "key": "outings",
+   "label": "Outings",
+   "icon": "directions_walk",
+   "feature": "HOSTEL",
+   "anyOf": []
+  },
+  "custody": {
+   "key": "custody",
+   "label": "Custody",
+   "icon": "lock",
+   "feature": "CUSTODY",
+   "anyOf": []
+  },
+  "inspections": {
+   "key": "inspections",
+   "label": "Inspections",
+   "icon": "search",
+   "feature": "HOSTEL",
+   "anyOf": []
+  },
+  "tickets": {
+   "key": "tickets",
+   "label": "Tickets",
+   "icon": "build",
+   "feature": "FACILITY",
+   "anyOf": []
+  },
+  "laundry": {
+   "key": "laundry",
+   "label": "Laundry",
+   "icon": "local_laundry_service",
+   "feature": "HOSTEL",
+   "anyOf": []
+  },
+  "handover": {
+   "key": "handover",
+   "label": "Handover",
+   "icon": "handshake",
+   "feature": null,
+   "anyOf": []
+  },
+  "sick_bay": {
+   "key": "sick_bay",
+   "label": "Sick bay",
+   "icon": "local_hospital",
+   "feature": "HEALTH",
+   "anyOf": []
+  },
+  "medication": {
+   "key": "medication",
+   "label": "Medication",
+   "icon": "medication",
+   "feature": "HEALTH",
+   "anyOf": []
+  },
+  "visits": {
+   "key": "visits",
+   "label": "Visits",
+   "icon": "medical_services",
+   "feature": "HEALTH",
+   "anyOf": []
+  },
+  "patients": {
+   "key": "patients",
+   "label": "Patients",
+   "icon": "personal_injury",
+   "feature": "HEALTH",
+   "anyOf": []
+  },
+  "menu": {
+   "key": "menu",
+   "label": "Menu",
+   "icon": "restaurant_menu",
+   "feature": "MESS",
+   "anyOf": []
+  },
+  "subscriptions": {
+   "key": "subscriptions",
+   "label": "Subscriptions",
+   "icon": "card_membership",
+   "feature": "MESS",
+   "anyOf": []
+  },
+  "stores": {
+   "key": "stores",
+   "label": "Stores",
+   "icon": "warehouse",
+   "feature": "INVENTORY",
+   "anyOf": []
+  },
+  "feedback": {
+   "key": "feedback",
+   "label": "Feedback",
+   "icon": "reviews",
+   "feature": "MESS",
+   "anyOf": []
+  },
+  "gate": {
+   "key": "gate",
+   "label": "Gate",
+   "icon": "door_front",
+   "feature": "GATE",
+   "anyOf": []
+  },
+  "patrol": {
+   "key": "patrol",
+   "label": "Patrol",
+   "icon": "route",
+   "feature": "SECURITY",
+   "anyOf": []
+  },
+  "live": {
+   "key": "live",
+   "label": "Live",
+   "icon": "sensors",
+   "feature": "SECURITY",
+   "anyOf": []
+  },
+  "patrols": {
+   "key": "patrols",
+   "label": "Patrols",
+   "icon": "route",
+   "feature": "SECURITY",
+   "anyOf": []
+  },
+  "occurrences": {
+   "key": "occurrences",
+   "label": "Occurrences",
+   "icon": "warning",
+   "feature": "SECURITY",
+   "anyOf": []
+  },
+  "library": {
+   "key": "library",
+   "label": "Library",
+   "icon": "local_library",
+   "feature": "LIBRARY",
+   "anyOf": []
+  },
+  "tasks": {
+   "key": "tasks",
+   "label": "Tasks",
+   "icon": "task",
+   "feature": "FACILITY",
+   "anyOf": []
+  },
+  "news": {
+   "key": "news",
+   "label": "News",
+   "icon": "feed",
+   "feature": "NEWS_FEED",
+   "anyOf": []
+  },
+  "me": {
+   "key": "me",
+   "label": "Me",
+   "icon": "person",
+   "feature": null,
+   "anyOf": []
+  },
+  "stock": {
+   "key": "stock",
+   "label": "Stock",
+   "icon": "inventory",
+   "feature": "INVENTORY",
+   "anyOf": []
+  },
+  "requisitions": {
+   "key": "requisitions",
+   "label": "Requisitions",
+   "icon": "request_page",
+   "feature": "INVENTORY",
+   "anyOf": []
+  },
+  "grn": {
+   "key": "grn",
+   "label": "GRN",
+   "icon": "local_shipping",
+   "feature": "INVENTORY",
+   "anyOf": []
+  },
+  "assets": {
+   "key": "assets",
+   "label": "Assets",
+   "icon": "devices_other",
+   "feature": "INVENTORY",
+   "anyOf": []
+  },
+  "live_map": {
+   "key": "live_map",
+   "label": "Live map",
+   "icon": "map",
+   "feature": "TRANSPORT",
+   "anyOf": []
+  },
+  "routes": {
+   "key": "routes",
+   "label": "Routes & stops",
+   "icon": "alt_route",
+   "feature": "TRANSPORT",
+   "anyOf": []
+  },
+  "vehicles": {
+   "key": "vehicles",
+   "label": "Vehicles",
+   "icon": "directions_bus",
+   "feature": "TRANSPORT",
+   "anyOf": []
+  },
+  "drivers": {
+   "key": "drivers",
+   "label": "Drivers",
+   "icon": "person",
+   "feature": "TRANSPORT",
+   "anyOf": []
+  },
+  "fuel": {
+   "key": "fuel",
+   "label": "Fuel",
+   "icon": "local_gas_station",
+   "feature": "TRANSPORT",
+   "anyOf": []
+  },
+  "trip": {
+   "key": "trip",
+   "label": "Trip",
+   "icon": "directions_bus",
+   "feature": "TRANSPORT",
+   "anyOf": []
+  },
+  "history": {
+   "key": "history",
+   "label": "History",
+   "icon": "history",
+   "feature": "TRANSPORT",
+   "anyOf": []
+  },
+  "my_consents": {
+   "key": "my_consents",
+   "label": "Consents",
+   "icon": "fact_check",
+   "feature": "CONSENT",
+   "anyOf": []
+  }
+ },
+ "roles": {
+  "ADMIN": {
+   "mobile": [
+    "pulse",
+    "approvals",
+    "reports",
+    "messages",
+    "more"
+   ],
+   "web": [
+    "overview",
+    "approvals",
+    "branches",
+    "finance",
+    "academics",
+    "hostel",
+    "people",
+    "roles",
+    "consents",
+    "reports",
+    "settings"
+   ]
+  },
+  "PRINCIPAL": {
+   "mobile": [
+    "pulse",
+    "approvals",
+    "staff",
+    "messages",
+    "more"
+   ],
+   "web": [
+    "overview",
+    "approvals",
+    "cover",
+    "staff_presence",
+    "academics",
+    "hostel",
+    "incidents",
+    "finance",
+    "communication",
+    "calendar",
+    "reports",
+    "roles",
+    "consents"
+   ]
+  },
+  "SCHOOL_ADMIN": {
+   "mobile": [
+    "today",
+    "students",
+    "staff_presence",
+    "messages",
+    "more"
+   ],
+   "web": [
+    "dashboard",
+    "students",
+    "staff",
+    "staff_presence",
+    "classes_subjects",
+    "timetable",
+    "exams",
+    "fees_setup",
+    "records",
+    "calendar",
+    "communication",
+    "import",
+    "devices",
+    "settings"
+   ]
+  },
+  "ACCOUNTANT": {
+   "mobile": [
+    "collect",
+    "expenses",
+    "my_requests",
+    "scan",
+    "more"
+   ],
+   "web": [
+    "counter",
+    "demands",
+    "collections",
+    "concessions",
+    "refunds",
+    "expenses",
+    "petty_cash",
+    "budgets",
+    "payroll",
+    "vendors",
+    "tally"
+   ]
+  },
+  "HR_MANAGER": {
+   "mobile": [
+    "approvals",
+    "roster",
+    "people",
+    "more"
+   ],
+   "web": [
+    "people",
+    "leave",
+    "roster",
+    "presence_exceptions",
+    "payroll",
+    "recruitment",
+    "reports"
+   ]
+  },
+  "ADMISSION_OFFICER": {
+   "mobile": [
+    "today",
+    "add_enquiry",
+    "pipeline",
+    "more"
+   ],
+   "web": [
+    "pipeline",
+    "follow_ups",
+    "applications",
+    "tests",
+    "seat_matrix",
+    "campaigns",
+    "reports"
+   ]
+  },
+  "RECEPTIONIST": {
+   "mobile": [
+    "visitors",
+    "pickups",
+    "parcels",
+    "enquiries",
+    "log"
+   ],
+   "web": [
+    "visitors",
+    "pickups",
+    "parcels",
+    "enquiries",
+    "log"
+   ]
+  },
+  "TEACHER": {
+   "mobile": [
+    "today",
+    "register",
+    "classwork",
+    "messages",
+    "more"
+   ],
+   "web": [
+    "today",
+    "register",
+    "classwork",
+    "exams",
+    "timetable",
+    "messages",
+    "calendar"
+   ]
+  },
+  "PARENT": {
+   "mobile": [
+    "home",
+    "attendance",
+    "fees",
+    "messages",
+    "more"
+   ],
+   "web": [
+    "home",
+    "attendance",
+    "fees",
+    "messages",
+    "learning",
+    "hostel",
+    "calendar",
+    "pickup_people",
+    "my_consents",
+    "assistants"
+   ]
+  },
+  "STUDENT": {
+   "mobile": [
+    "today",
+    "classwork",
+    "results",
+    "hostel",
+    "more"
+   ],
+   "web": [
+    "today",
+    "classwork",
+    "results",
+    "hostel",
+    "fees",
+    "id_card",
+    "calendar",
+    "placements"
+   ]
+  },
+  "CHIEF_WARDEN": {
+   "mobile": [
+    "hostel",
+    "approvals",
+    "roster",
+    "incidents",
+    "more"
+   ],
+   "web": [
+    "hostel",
+    "approvals",
+    "rooms",
+    "travel_groups",
+    "policies",
+    "roster",
+    "incidents",
+    "reports"
+   ]
+  },
+  "WARDEN": {
+   "mobile": [
+    "roll_call",
+    "residents",
+    "outings",
+    "custody",
+    "more"
+   ],
+   "web": [
+    "roll_call",
+    "residents",
+    "outings",
+    "custody",
+    "inspections",
+    "tickets",
+    "laundry",
+    "handover"
+   ]
+  },
+  "MATRON": {
+   "mobile": [
+    "sick_bay",
+    "medication",
+    "laundry",
+    "residents",
+    "more"
+   ],
+   "web": [
+    "sick_bay",
+    "medication",
+    "laundry",
+    "residents"
+   ]
+  },
+  "NURSE": {
+   "mobile": [
+    "visits",
+    "patients",
+    "medication",
+    "records",
+    "more"
+   ],
+   "web": [
+    "visits",
+    "patients",
+    "medication",
+    "records"
+   ]
+  },
+  "MESS_MANAGER": {
+   "mobile": [
+    "today",
+    "menu",
+    "subscriptions",
+    "stores",
+    "more"
+   ],
+   "web": [
+    "today",
+    "menu",
+    "subscriptions",
+    "stores",
+    "feedback",
+    "reports"
+   ]
+  },
+  "SECURITY": {
+   "mobile": [
+    "scan",
+    "gate",
+    "patrol",
+    "log"
+   ],
+   "web": [
+    "scan",
+    "gate",
+    "patrol",
+    "log"
+   ]
+  },
+  "SECURITY_SUPERVISOR": {
+   "mobile": [
+    "live",
+    "roster",
+    "patrols",
+    "occurrences",
+    "more"
+   ],
+   "web": [
+    "live",
+    "roster",
+    "patrols",
+    "occurrences"
+   ]
+  },
+  "STAFF": {
+   "mobile": [
+    "scan",
+    "library",
+    "tasks",
+    "news",
+    "more"
+   ],
+   "web": [
+    "scan",
+    "library",
+    "tasks",
+    "news",
+    "me"
+   ]
+  },
+  "STORE_KEEPER": {
+   "mobile": [
+    "scan",
+    "stock",
+    "requisitions",
+    "grn",
+    "more"
+   ],
+   "web": [
+    "scan",
+    "stock",
+    "requisitions",
+    "grn",
+    "assets"
+   ]
+  },
+  "TRANSPORT_MANAGER": {
+   "mobile": [
+    "live_map",
+    "routes",
+    "vehicles",
+    "more"
+   ],
+   "web": [
+    "live_map",
+    "routes",
+    "students",
+    "vehicles",
+    "drivers",
+    "fuel",
+    "reports"
+   ]
+  },
+  "DRIVER": {
+   "mobile": [
+    "trip",
+    "history"
+   ],
+   "web": [
+    "trip",
+    "history"
+   ]
+  }
+ }
+}

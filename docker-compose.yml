@@ -1,0 +1,58 @@
+# One compose file per installation: a school self-hosting, or the hosted multi-tenant deployment.
+# Postgres data and backups live on the host file system (PG_DATA_DIR, BACKUP_DIR).
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-school_app_db}
+      POSTGRES_USER: ${POSTGRES_USER:-schoolcrm_owner}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      APP_DB_USER: ${APP_DB_USER:-schoolcrm_api}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?set APP_DB_PASSWORD}
+    volumes:
+      - ${PG_DATA_DIR:-/srv/schoolcrm/pg}:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    image: ${APP_IMAGE:-school-app-server:latest}
+    build: .
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-school_app_db}
+      SPRING_DATASOURCE_USERNAME: ${APP_DB_USER:-schoolcrm_api}
+      SPRING_DATASOURCE_PASSWORD: ${APP_DB_PASSWORD}
+      FLYWAY_USER: ${POSTGRES_USER:-schoolcrm_owner}
+      FLYWAY_PASSWORD: ${POSTGRES_PASSWORD}
+      AUTH_ISSUER_URL: ${AUTH_ISSUER_URL:?set AUTH_ISSUER_URL (school-auth public URL)}
+      DIRECTORY_SYNC_ENABLED: ${DIRECTORY_SYNC_ENABLED:-false}
+      DIRECTORY_SYNC_CLIENT_ID: ${DIRECTORY_SYNC_CLIENT_ID:-school-app-server}
+      DIRECTORY_SYNC_CLIENT_SECRET: ${DIRECTORY_SYNC_CLIENT_SECRET:-}
+      API_DOCS_ENABLED: ${API_DOCS_ENABLED:-false}
+    ports:
+      - "${APP_PORT:-8081}:8081"
+
+  backup:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "/backup.sh"]
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER:-schoolcrm_owner}
+      POSTGRES_DB: ${POSTGRES_DB:-school_app_db}
+      TZ: ${TZ:-Asia/Kolkata}
+      BACKUP_AT: ${BACKUP_AT:-02:30}
+    volumes:
+      - ./docker/backup/backup.sh:/backup.sh:ro
+      - ${BACKUP_DIR:-/srv/schoolcrm/backups}:/backups
