@@ -436,7 +436,7 @@ paths:
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "STAFF_PRESENCE", anyOf = {"STAFF_PRESENCE_MANAGE",
         "HR_PAYROLL_MANAGE"})'
   /api/v1/hrmanager/shifts/{shiftId}:
-    patch:
+    put:
       tags:
       - HrManager
       operationId: updateShift
@@ -484,6 +484,43 @@ paths:
       - HR_MANAGER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "STAFF_PRESENCE", anyOf = {"STAFF_PRESENCE_MANAGE",
         "HR_PAYROLL_MANAGE"})'
+    get:
+      tags:
+      - HrManager
+      operationId: getShift
+      summary: One shift (detail)
+      parameters:
+      - name: shiftId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shift'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: STAFF_PRESENCE
+      x-base-roles:
+      - HR_MANAGER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "STAFF_PRESENCE")'
   /api/v1/hrmanager/shift-assignments:
     get:
       tags:
@@ -1207,7 +1244,7 @@ paths:
       - HR_MANAGER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL", anyOf = {"HR_PAYROLL_MANAGE"})'
   /api/v1/hrmanager/candidates/{candidateId}:
-    patch:
+    put:
       tags:
       - HrManager
       operationId: updateCandidate
@@ -1253,6 +1290,278 @@ paths:
       x-base-roles:
       - HR_MANAGER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL", anyOf = {"HR_PAYROLL_MANAGE"})'
+  /api/v1/hrmanager/leave-types/{leaveTypeId}:
+    get:
+      tags:
+      - HrManager
+      operationId: getLeaveType
+      summary: One leaveType (detail)
+      parameters:
+      - name: leaveTypeId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveType'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HR_PAYROLL
+      x-base-roles:
+      - HR_MANAGER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL")'
+  /api/v1/hrmanager/leave-requests/{leaveRequestId}:
+    get:
+      tags:
+      - HrManager
+      operationId: getLeaveRequest
+      summary: One leaveRequest (detail)
+      parameters:
+      - name: leaveRequestId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveRequest'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HR_PAYROLL
+      x-base-roles:
+      - HR_MANAGER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL")'
+  /api/v1/hrmanager/shift-assignments/{shiftAssignmentId}:
+    get:
+      tags:
+      - HrManager
+      operationId: getShiftAssignment
+      summary: One shiftAssignment (detail)
+      parameters:
+      - name: shiftAssignmentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftAssignment'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: STAFF_PRESENCE
+      x-base-roles:
+      - HR_MANAGER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "STAFF_PRESENCE")'
+  /api/v1/hrmanager/salary-components/{componentId}:
+    get:
+      tags:
+      - HrManager
+      operationId: getSalaryComponent
+      summary: One salaryComponent (detail)
+      parameters:
+      - name: componentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalaryComponent'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HR_PAYROLL
+      x-base-roles:
+      - HR_MANAGER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL")'
+  /api/v1/hrmanager/payroll/runs/{runId}:
+    get:
+      tags:
+      - HrManager
+      operationId: getPayrollRun
+      summary: One payrollRun (detail)
+      parameters:
+      - name: runId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayrollRun'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HR_PAYROLL
+      x-base-roles:
+      - HR_MANAGER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL")'
+  /api/v1/hrmanager/job-openings/{openingId}:
+    get:
+      tags:
+      - HrManager
+      operationId: getJobOpening
+      summary: One jobOpening (detail)
+      parameters:
+      - name: openingId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobOpening'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HR_PAYROLL
+      x-base-roles:
+      - HR_MANAGER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL")'
+  /api/v1/hrmanager/job-openings/{openingId}/candidates/{candidateId}:
+    get:
+      tags:
+      - HrManager
+      operationId: getCandidate
+      summary: One candidate (detail)
+      parameters:
+      - name: openingId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: candidateId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Candidate'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HR_PAYROLL
+      x-base-roles:
+      - HR_MANAGER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL")'
 components:
   securitySchemes:
     bearerAuth:
@@ -1304,10 +1613,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -1316,16 +1631,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:

@@ -886,6 +886,126 @@ paths:
       x-base-roles:
       - WARDEN
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL", anyOf = {"HOSTEL_SCOPED", "HOSTEL_MANAGE"})'
+  /api/v1/warden/custody/items/{itemId}:
+    get:
+      tags:
+      - Warden
+      operationId: getItem
+      summary: One item (detail)
+      parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: CUSTODY
+        anyOf:
+        - CUSTODY_SCOPED
+        - CUSTODY_MANAGE
+      x-base-roles:
+      - WARDEN
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "CUSTODY", anyOf = {"CUSTODY_SCOPED", "CUSTODY_MANAGE"})'
+  /api/v1/warden/inspections/{inspectionId}:
+    get:
+      tags:
+      - Warden
+      operationId: getRoomInspection
+      summary: One roomInspection (detail)
+      parameters:
+      - name: inspectionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoomInspection'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HOSTEL
+        anyOf:
+        - HOSTEL_SCOPED
+        - HOSTEL_MANAGE
+      x-base-roles:
+      - WARDEN
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL", anyOf = {"HOSTEL_SCOPED", "HOSTEL_MANAGE"})'
+  /api/v1/warden/tickets/{ticketId}:
+    get:
+      tags:
+      - Warden
+      operationId: getTicket
+      summary: One ticket (detail)
+      parameters:
+      - name: ticketId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: FACILITY
+      x-base-roles:
+      - WARDEN
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "FACILITY")'
 components:
   securitySchemes:
     bearerAuth:
@@ -937,10 +1057,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -949,16 +1075,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:

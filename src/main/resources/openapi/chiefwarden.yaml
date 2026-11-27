@@ -85,7 +85,7 @@ paths:
       - CHIEF_WARDEN
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL")'
   /api/v1/chiefwarden/hostels/{hostelId}:
-    patch:
+    put:
       tags:
       - ChiefWarden
       operationId: updateHostel
@@ -131,6 +131,43 @@ paths:
       x-base-roles:
       - CHIEF_WARDEN
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL", anyOf = {"HOSTEL_MANAGE"})'
+    get:
+      tags:
+      - ChiefWarden
+      operationId: getHostel
+      summary: One hostel (detail)
+      parameters:
+      - name: hostelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hostel'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HOSTEL
+      x-base-roles:
+      - CHIEF_WARDEN
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL")'
   /api/v1/chiefwarden/hostels/{hostelId}/now:
     get:
       tags:
@@ -647,7 +684,7 @@ paths:
       x-base-roles:
       - CHIEF_WARDEN
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL")'
-    patch:
+    put:
       tags:
       - ChiefWarden
       operationId: updateTravelGroup
@@ -1229,6 +1266,220 @@ paths:
       x-base-roles:
       - CHIEF_WARDEN
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL", anyOf = {"HOSTEL_MANAGE"})'
+  /api/v1/chiefwarden/allocation-requests/{requestId}:
+    get:
+      tags:
+      - ChiefWarden
+      operationId: getAllocationRequest
+      summary: One allocationRequest (detail)
+      parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllocationRequest'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HOSTEL
+      x-base-roles:
+      - CHIEF_WARDEN
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL")'
+  /api/v1/chiefwarden/hostels/{hostelId}/rooms/{roomId}:
+    get:
+      tags:
+      - ChiefWarden
+      operationId: getRoom
+      summary: One room (detail)
+      parameters:
+      - name: hostelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: roomId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HOSTEL
+      x-base-roles:
+      - CHIEF_WARDEN
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL")'
+  /api/v1/chiefwarden/hostels/{hostelId}/policies/{policyId}:
+    get:
+      tags:
+      - ChiefWarden
+      operationId: getOutingPolicy
+      summary: One outingPolicy (detail)
+      parameters:
+      - name: hostelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: policyId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutingPolicy'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HOSTEL
+      x-base-roles:
+      - CHIEF_WARDEN
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL")'
+  /api/v1/chiefwarden/hostels/{hostelId}/release-windows/{windowId}:
+    get:
+      tags:
+      - ChiefWarden
+      operationId: getReleaseWindow
+      summary: One releaseWindow (detail)
+      parameters:
+      - name: hostelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: windowId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseWindow'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: CUSTODY
+      x-base-roles:
+      - CHIEF_WARDEN
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "CUSTODY")'
+  /api/v1/chiefwarden/hostels/{hostelId}/staff-assignments/{assignmentId}:
+    get:
+      tags:
+      - ChiefWarden
+      operationId: getStaffAssignment
+      summary: One staffAssignment (detail)
+      parameters:
+      - name: hostelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: assignmentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffAssignment'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HOSTEL
+      x-base-roles:
+      - CHIEF_WARDEN
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOSTEL")'
 components:
   securitySchemes:
     bearerAuth:
@@ -1280,10 +1531,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -1292,16 +1549,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:

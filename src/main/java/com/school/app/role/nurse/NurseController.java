@@ -1,6 +1,5 @@
 package com.school.app.role.nurse;
 
-import com.school.app.role.nurse.api.NurseApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class NurseController implements NurseApi {
+public class NurseController extends NurseCrud {
 }

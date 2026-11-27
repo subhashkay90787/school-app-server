@@ -1,6 +1,5 @@
 package com.school.app.role.staff;
 
-import com.school.app.role.staff.api.StaffApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class StaffController implements StaffApi {
+public class StaffController extends StaffCrud {
 }

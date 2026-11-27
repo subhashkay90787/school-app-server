@@ -1,6 +1,5 @@
 package com.school.app.role.storekeeper;
 
-import com.school.app.role.storekeeper.api.StoreKeeperApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class StoreKeeperController implements StoreKeeperApi {
+public class StoreKeeperController extends StoreKeeperCrud {
 }

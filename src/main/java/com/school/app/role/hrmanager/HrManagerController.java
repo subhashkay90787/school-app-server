@@ -1,6 +1,5 @@
 package com.school.app.role.hrmanager;
 
-import com.school.app.role.hrmanager.api.HrManagerApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class HrManagerController implements HrManagerApi {
+public class HrManagerController extends HrManagerCrud {
 }

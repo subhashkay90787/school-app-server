@@ -1,6 +1,5 @@
 package com.school.app.role.driver;
 
-import com.school.app.role.driver.api.DriverApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class DriverController implements DriverApi {
+public class DriverController extends DriverCrud {
 }

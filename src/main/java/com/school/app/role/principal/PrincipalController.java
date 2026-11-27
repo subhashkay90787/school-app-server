@@ -1,6 +1,5 @@
 package com.school.app.role.principal;
 
-import com.school.app.role.principal.api.PrincipalApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class PrincipalController implements PrincipalApi {
+public class PrincipalController extends PrincipalCrud {
 }

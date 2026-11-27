@@ -50,6 +50,38 @@ paths:
         anyOf: []
       x-base-roles:
       - '*'
+  /api/v1/common/profile:
+    get:
+      tags:
+      - Common
+      operationId: getProfile
+      summary: 'My profile in this branch: user, employee record, teaching details, linked children'
+      parameters:
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileView'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: null
+        anyOf: []
+      x-base-roles:
+      - '*'
   /api/v1/common/me/navigation:
     get:
       tags:
@@ -1495,6 +1527,43 @@ paths:
       x-base-roles:
       - '*'
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL")'
+    get:
+      tags:
+      - Common
+      operationId: getLeaveRequest
+      summary: One leaveRequest (detail)
+      parameters:
+      - name: leaveRequestId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveRequest'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HR_PAYROLL
+      x-base-roles:
+      - '*'
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL")'
   /api/v1/common/me/payslips:
     get:
       tags:
@@ -1572,6 +1641,87 @@ paths:
       x-base-roles:
       - '*'
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL")'
+  /api/v1/common/calendar/{eventId}:
+    get:
+      tags:
+      - Common
+      operationId: getCalendarEvent
+      summary: One calendarEvent (detail)
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarEvent'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: CALENDAR
+      x-base-roles:
+      - '*'
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "CALENDAR")'
+  /api/v1/common/me/presence/{presenceId}:
+    get:
+      tags:
+      - Common
+      operationId: getDailyPresence
+      summary: One dailyPresence (detail)
+      parameters:
+      - name: presenceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyPresence'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: STAFF_PRESENCE
+        anyOf:
+        - STAFF_PRESENCE_SELF
+        - STAFF_PRESENCE_VIEW
+        - STAFF_PRESENCE_MANAGE
+      x-base-roles:
+      - '*'
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "STAFF_PRESENCE", anyOf = {"STAFF_PRESENCE_SELF",
+        "STAFF_PRESENCE_VIEW", "STAFF_PRESENCE_MANAGE"})'
 components:
   securitySchemes:
     bearerAuth:
@@ -1623,10 +1773,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -1635,16 +1791,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:
@@ -1840,6 +2005,37 @@ components:
       - eventType
       - title
       - startDate
+    ChildSummary:
+      type: object
+      properties:
+        studentId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photoUrl:
+          type: string
+        classSection:
+          type: string
+        branchName:
+          type: string
+        schoolId:
+          type: integer
+          format: int64
+        residency:
+          type: string
+          enum:
+          - DAY_SCHOLAR
+          - HOSTELLER
+        statusDot:
+          type: string
+          enum:
+          - GREEN
+          - AMBER
+          - RED
+        statusText:
+          type: string
+      description: Green = in school/hostel, amber = on outing or late, red = absent or missing
     ConsentDecisionInput:
       type: object
       properties:
@@ -2087,6 +2283,73 @@ components:
         to:
           type: string
           format: date-time
+    EmployeeProfile:
+      type: object
+      description: Table hr.employee_profile (ER v5)
+      properties:
+        schoolId:
+          type: integer
+          format: int64
+          readOnly: true
+          description: Branch (auth school_id)
+        userId:
+          type: integer
+          format: int64
+          description: Auth user id
+        employeeCode:
+          type: string
+        staffCategory:
+          type: string
+          enum:
+          - TEACHING
+          - NON_TEACHING
+          - SECURITY
+          - HOSTEL
+          - TRANSPORT
+          - CONTRACT
+        departmentId:
+          type: integer
+          format: int64
+          description: -> academics.department
+        designation:
+          type: string
+        employmentType:
+          type: string
+          enum:
+          - PERMANENT
+          - PROBATION
+          - CONTRACT
+          - PART_TIME
+          - GUEST
+          - OUTSOURCED
+        reportingManagerUserId:
+          type: integer
+          format: int64
+          description: Auth user id
+        dateOfJoining:
+          type: string
+          format: date
+        dateOfLeaving:
+          type: string
+          format: date
+        pfUan:
+          type: string
+        esiNumber:
+          type: string
+        vaultRef:
+          type: string
+        policeVerificationOn:
+          type: string
+          format: date
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - ON_NOTICE
+          - LEFT
+      required:
+      - userId
+      - status
     EscalationStep:
       type: object
       properties:
@@ -2666,6 +2929,41 @@ components:
         code:
           type: string
           description: Stable machine code, e.g. FEATURE_OFF, CONSENT_REQUIRED, DUES_HOLD
+    ProfileView:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        userCategory:
+          type: string
+        photoUrl:
+          type: string
+        school:
+          $ref: '#/components/schemas/SchoolContext'
+        employee:
+          $ref: '#/components/schemas/EmployeeProfile'
+        teacher:
+          $ref: '#/components/schemas/TeacherMetadata'
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildSummary'
+        student:
+          $ref: '#/components/schemas/Student'
+        duties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Duty'
+      description: Name, phone and email are owned by school-auth (edit them at PATCH /api/v1/users/me on the auth server)
     ReactionInput:
       type: object
       properties:
@@ -2860,3 +3158,118 @@ components:
       required:
       - rosterEntryId
       - withUserId
+    Student:
+      type: object
+      description: Table academics.student (ER v5)
+      properties:
+        schoolId:
+          type: integer
+          format: int64
+          readOnly: true
+          description: Branch (auth school_id)
+        studentId:
+          type: integer
+          format: int64
+          readOnly: true
+        studentAdmissionNumber:
+          type: string
+        registrationNumber:
+          type: string
+        studentAdmissionDate:
+          type: string
+          format: date
+        firstName:
+          type: string
+        lastName:
+          type: string
+        studentUserId:
+          type: integer
+          format: int64
+          description: Auth user id
+        classSectionId:
+          type: integer
+          format: int64
+          description: -> academics.class_section
+        feeStructureId:
+          type: integer
+          format: int64
+          description: -> finance.fee_structure
+        previousSchoolId:
+          type: integer
+          format: int64
+        previousStudentId:
+          type: integer
+          format: int64
+        apaarId:
+          type: string
+        pen:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        gender:
+          type: string
+        socialCategory:
+          type: string
+        isCwsn:
+          type: boolean
+        motherTongue:
+          type: string
+        residencyType:
+          type: string
+          enum:
+          - DAY_SCHOLAR
+          - HOSTELLER
+        photoUrl:
+          type: string
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - ALUMNI
+          - LEFT
+          - TC_ISSUED
+          - SUSPENDED
+        admissionApplicationId:
+          type: integer
+          format: int64
+          description: -> admissions.application
+        aadhaarLast4:
+          type: string
+      required:
+      - studentId
+      - studentAdmissionNumber
+      - firstName
+      - residencyType
+      - status
+    TeacherMetadata:
+      type: object
+      description: Table hr.teacher_metadata (ER v5)
+      properties:
+        schoolId:
+          type: integer
+          format: int64
+          readOnly: true
+          description: Branch (auth school_id)
+        userId:
+          type: integer
+          format: int64
+          description: Auth user id
+        teacherEnrollmentNumber:
+          type: string
+        departmentId:
+          type: integer
+          format: int64
+          description: -> academics.department
+        designation:
+          type: string
+        teacherJoinedDate:
+          type: string
+          format: date
+        teacherLeavingDate:
+          type: string
+          format: date
+        qualification:
+          type: string
+      required:
+      - userId

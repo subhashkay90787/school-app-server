@@ -516,7 +516,7 @@ paths:
       - SECURITY_SUPERVISOR
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "SECURITY")'
   /api/v1/securitysupervisor/occurrences/{occurrenceId}:
-    patch:
+    put:
       tags:
       - SecuritySupervisor
       operationId: updateOccurrence
@@ -562,6 +562,43 @@ paths:
       x-base-roles:
       - SECURITY_SUPERVISOR
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "SECURITY", anyOf = {"SECURITY_MANAGE"})'
+    get:
+      tags:
+      - SecuritySupervisor
+      operationId: getOccurrence
+      summary: One occurrence (detail)
+      parameters:
+      - name: occurrenceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Occurrence'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: SECURITY
+      x-base-roles:
+      - SECURITY_SUPERVISOR
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "SECURITY")'
   /api/v1/securitysupervisor/keys:
     get:
       tags:
@@ -676,6 +713,158 @@ paths:
       x-base-roles:
       - SECURITY_SUPERVISOR
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "SECURITY")'
+  /api/v1/securitysupervisor/posts/{postId}:
+    get:
+      tags:
+      - SecuritySupervisor
+      operationId: getPost
+      summary: One post (detail)
+      parameters:
+      - name: postId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: SECURITY
+      x-base-roles:
+      - SECURITY_SUPERVISOR
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "SECURITY")'
+  /api/v1/securitysupervisor/checkpoints/{checkpointId}:
+    get:
+      tags:
+      - SecuritySupervisor
+      operationId: getCheckpoint
+      summary: One checkpoint (detail)
+      parameters:
+      - name: checkpointId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checkpoint'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: SECURITY
+      x-base-roles:
+      - SECURITY_SUPERVISOR
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "SECURITY")'
+  /api/v1/securitysupervisor/patrol-routes/{routeId}:
+    get:
+      tags:
+      - SecuritySupervisor
+      operationId: getPatrolRoute
+      summary: One patrolRoute (detail)
+      parameters:
+      - name: routeId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatrolRoute'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: SECURITY
+      x-base-roles:
+      - SECURITY_SUPERVISOR
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "SECURITY")'
+  /api/v1/securitysupervisor/welfare/{pingId}:
+    get:
+      tags:
+      - SecuritySupervisor
+      operationId: getWelfarePing
+      summary: One welfarePing (detail)
+      parameters:
+      - name: pingId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WelfarePing'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: SECURITY
+      x-base-roles:
+      - SECURITY_SUPERVISOR
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "SECURITY")'
 components:
   securitySchemes:
     bearerAuth:
@@ -727,10 +916,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -739,16 +934,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:

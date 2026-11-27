@@ -1,6 +1,5 @@
 package com.school.app.role.warden;
 
-import com.school.app.role.warden.api.WardenApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class WardenController implements WardenApi {
+public class WardenController extends WardenCrud {
 }

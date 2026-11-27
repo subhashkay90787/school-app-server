@@ -8,7 +8,6 @@ import com.school.app.core.nav.NavigationService;
 import com.school.app.domain.calendar.CalendarService;
 import com.school.app.core.security.SchoolAccess;
 import com.school.app.core.tenant.TenantContext;
-import com.school.app.role.common.api.CommonApi;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +21,7 @@ import java.util.List;
  * listCalendar reads the branch calendar (through RLS); the rest answer 501 until their domain services exist.
  */
 @RestController
-public class CommonController implements CommonApi {
+public class CommonController extends CommonCrud {
 
     private final NavigationService navigationService;
     private final CalendarService calendarService;

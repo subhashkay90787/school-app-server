@@ -329,7 +329,7 @@ def build_spec(reg, actors, title, version, description, servers_path, prefix_id
             "Page": {"name": "page", "in": "query", "required": False, "schema": {"type": "integer", "format": "int32", "default": 0, "minimum": 0}},
             "Size": {"name": "size", "in": "query", "required": False, "schema": {"type": "integer", "format": "int32", "default": 50, "minimum": 1, "maximum": 200}},
         },
-        "responses": {"E" + c: {"description": d, "content": {"application/problem+json": {"schema": ref("Problem")}}}
+        "responses": {"E" + c: {"description": d, "content": {"application/problem+json": {"schema": ref("Problem")}, "application/json": {"schema": ref("Problem")}}}
                       for c, d in PROBLEM_RESPONSES.items()},
         "schemas": schemas,
     }

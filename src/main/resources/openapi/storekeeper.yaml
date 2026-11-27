@@ -175,7 +175,7 @@ paths:
       - STORE_KEEPER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY", anyOf = {"INVENTORY_MANAGE"})'
   /api/v1/storekeeper/items/{id}:
-    patch:
+    put:
       tags:
       - StoreKeeper
       operationId: updateItem
@@ -296,7 +296,7 @@ paths:
       - STORE_KEEPER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY", anyOf = {"INVENTORY_MANAGE"})'
   /api/v1/storekeeper/item-categories/{id}:
-    patch:
+    put:
       tags:
       - StoreKeeper
       operationId: updateItemCategory
@@ -417,7 +417,7 @@ paths:
       - STORE_KEEPER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY", anyOf = {"INVENTORY_MANAGE"})'
   /api/v1/storekeeper/locations/{id}:
-    patch:
+    put:
       tags:
       - StoreKeeper
       operationId: updateLocation
@@ -538,7 +538,7 @@ paths:
       - STORE_KEEPER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY", anyOf = {"INVENTORY_MANAGE"})'
   /api/v1/storekeeper/vendors/{id}:
-    patch:
+    put:
       tags:
       - StoreKeeper
       operationId: updateVendor
@@ -1268,6 +1268,272 @@ paths:
       x-base-roles:
       - STORE_KEEPER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY", anyOf = {"INVENTORY_MANAGE"})'
+  /api/v1/storekeeper/items/{itemCatalogId}:
+    get:
+      tags:
+      - StoreKeeper
+      operationId: getItemCatalog
+      summary: One itemCatalog (detail)
+      parameters:
+      - name: itemCatalogId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemCatalog'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: INVENTORY
+      x-base-roles:
+      - STORE_KEEPER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY")'
+  /api/v1/storekeeper/item-categories/{categoryId}:
+    get:
+      tags:
+      - StoreKeeper
+      operationId: getItemCategory
+      summary: One itemCategory (detail)
+      parameters:
+      - name: categoryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemCategory'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: INVENTORY
+      x-base-roles:
+      - STORE_KEEPER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY")'
+  /api/v1/storekeeper/locations/{locationId}:
+    get:
+      tags:
+      - StoreKeeper
+      operationId: getLocation
+      summary: One location (detail)
+      parameters:
+      - name: locationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: INVENTORY
+      x-base-roles:
+      - STORE_KEEPER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY")'
+  /api/v1/storekeeper/vendors/{vendorId}:
+    get:
+      tags:
+      - StoreKeeper
+      operationId: getVendor
+      summary: One vendor (detail)
+      parameters:
+      - name: vendorId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: INVENTORY
+      x-base-roles:
+      - STORE_KEEPER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY")'
+  /api/v1/storekeeper/requisitions/{requisitionId}:
+    get:
+      tags:
+      - StoreKeeper
+      operationId: getRequisition
+      summary: One requisition (detail)
+      parameters:
+      - name: requisitionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Requisition'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: INVENTORY
+      x-base-roles:
+      - STORE_KEEPER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY")'
+  /api/v1/storekeeper/purchase-orders/{poId}:
+    get:
+      tags:
+      - StoreKeeper
+      operationId: getPurchaseOrder
+      summary: One purchaseOrder (detail)
+      parameters:
+      - name: poId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: INVENTORY
+      x-base-roles:
+      - STORE_KEEPER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY")'
+  /api/v1/storekeeper/assets/{assetId}:
+    get:
+      tags:
+      - StoreKeeper
+      operationId: getAssetItem
+      summary: One assetItem (detail)
+      parameters:
+      - name: assetId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetItem'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: INVENTORY
+      x-base-roles:
+      - STORE_KEEPER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "INVENTORY")'
 components:
   securitySchemes:
     bearerAuth:
@@ -1319,10 +1585,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -1331,16 +1603,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:

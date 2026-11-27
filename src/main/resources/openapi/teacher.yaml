@@ -179,6 +179,48 @@ paths:
       - TEACHER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "ACADEMICS", anyOf = {"ACADEMICS_SCOPED",
         "ACADEMICS_MANAGE"})'
+  /api/v1/teacher/students/{studentId}:
+    get:
+      tags:
+      - Teacher
+      operationId: getStudent
+      summary: Student card (alerts, parents) for a student I teach
+      parameters:
+      - name: studentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentCard'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: ACADEMICS
+        anyOf:
+        - ACADEMICS_SCOPED
+        - ACADEMICS_MANAGE
+      x-base-roles:
+      - TEACHER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "ACADEMICS", anyOf = {"ACADEMICS_SCOPED",
+        "ACADEMICS_MANAGE"})'
   /api/v1/teacher/classes/{classSectionId}/students:
     get:
       tags:
@@ -682,7 +724,7 @@ paths:
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOMEWORK", anyOf = {"ACADEMICS_SCOPED",
         "ACADEMICS_MANAGE"})'
   /api/v1/teacher/homework/{homeworkId}:
-    patch:
+    put:
       tags:
       - Teacher
       operationId: updateHomework
@@ -767,6 +809,47 @@ paths:
       - TEACHER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOMEWORK", anyOf = {"ACADEMICS_SCOPED",
         "ACADEMICS_MANAGE"})'
+    get:
+      tags:
+      - Teacher
+      operationId: getHomework
+      summary: One homework (detail)
+      parameters:
+      - name: homeworkId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Homework'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HOMEWORK
+        anyOf:
+        - ACADEMICS_SCOPED
+        - ACADEMICS_MANAGE
+      x-base-roles:
+      - TEACHER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOMEWORK", anyOf = {"ACADEMICS_SCOPED",
+        "ACADEMICS_MANAGE"})'
   /api/v1/teacher/homework/{homeworkId}/submissions:
     get:
       tags:
@@ -812,7 +895,7 @@ paths:
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOMEWORK", anyOf = {"ACADEMICS_SCOPED",
         "ACADEMICS_MANAGE"})'
   /api/v1/teacher/homework/{homeworkId}/submissions/{submissionId}:
-    patch:
+    put:
       tags:
       - Teacher
       operationId: gradeSubmission
@@ -838,6 +921,53 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GradeInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeworkSubmission'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HOMEWORK
+        anyOf:
+        - ACADEMICS_SCOPED
+        - ACADEMICS_MANAGE
+      x-base-roles:
+      - TEACHER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HOMEWORK", anyOf = {"ACADEMICS_SCOPED",
+        "ACADEMICS_MANAGE"})'
+    get:
+      tags:
+      - Teacher
+      operationId: getHomeworkSubmission
+      summary: One homeworkSubmission (detail)
+      parameters:
+      - name: homeworkId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: submissionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
       responses:
         '200':
           description: OK
@@ -1062,7 +1192,7 @@ paths:
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "LESSON_PLANS", anyOf = {"ACADEMICS_SCOPED",
         "ACADEMICS_MANAGE"})'
   /api/v1/teacher/lesson-plans/{planId}:
-    patch:
+    put:
       tags:
       - Teacher
       operationId: updateLessonPlan
@@ -1082,6 +1212,47 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/LessonPlanInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonPlan'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: LESSON_PLANS
+        anyOf:
+        - ACADEMICS_SCOPED
+        - ACADEMICS_MANAGE
+      x-base-roles:
+      - TEACHER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "LESSON_PLANS", anyOf = {"ACADEMICS_SCOPED",
+        "ACADEMICS_MANAGE"})'
+    get:
+      tags:
+      - Teacher
+      operationId: getLessonPlan
+      summary: One lessonPlan (detail)
+      parameters:
+      - name: planId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
       responses:
         '200':
           description: OK
@@ -1368,7 +1539,7 @@ paths:
       - TEACHER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "PTM", anyOf = {"COMMUNICATION_SCOPED"})'
   /api/v1/teacher/ptm/slots/{slotId}:
-    patch:
+    put:
       tags:
       - Teacher
       operationId: updatePtmSlot
@@ -1388,6 +1559,43 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PtmNotesInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PtmSlot'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: PTM
+      x-base-roles:
+      - TEACHER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "PTM")'
+    get:
+      tags:
+      - Teacher
+      operationId: getPtmSlot
+      summary: One ptmSlot (detail)
+      parameters:
+      - name: slotId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
       responses:
         '200':
           description: OK
@@ -1586,7 +1794,7 @@ paths:
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "REPORT_CARDS", anyOf = {"ACADEMICS_SCOPED",
         "ACADEMICS_MANAGE"})'
   /api/v1/teacher/report-cards/{reportCardId}:
-    patch:
+    put:
       tags:
       - Teacher
       operationId: addRemark
@@ -1606,6 +1814,47 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RemarkInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportCard'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: REPORT_CARDS
+        anyOf:
+        - ACADEMICS_SCOPED
+        - ACADEMICS_MANAGE
+      x-base-roles:
+      - TEACHER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "REPORT_CARDS", anyOf = {"ACADEMICS_SCOPED",
+        "ACADEMICS_MANAGE"})'
+    get:
+      tags:
+      - Teacher
+      operationId: getReportCard
+      summary: One reportCard (detail)
+      parameters:
+      - name: reportCardId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
       responses:
         '200':
           description: OK
@@ -1763,6 +2012,87 @@ paths:
       - TEACHER
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "ONLINE_QUIZ", anyOf = {"ACADEMICS_SCOPED",
         "ACADEMICS_MANAGE"})'
+  /api/v1/teacher/exams/{examId}:
+    get:
+      tags:
+      - Teacher
+      operationId: getExams
+      summary: One exams (detail)
+      parameters:
+      - name: examId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exams'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: EXAMS
+        anyOf:
+        - ACADEMICS_SCOPED
+        - ACADEMICS_MANAGE
+      x-base-roles:
+      - TEACHER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "EXAMS", anyOf = {"ACADEMICS_SCOPED", "ACADEMICS_MANAGE"})'
+  /api/v1/teacher/student-leave-requests/{requestId}:
+    get:
+      tags:
+      - Teacher
+      operationId: getStudentLeaveRequest
+      summary: One studentLeaveRequest (detail)
+      parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentLeaveRequest'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: ATTENDANCE
+        anyOf:
+        - ATTENDANCE_SCOPED
+      x-base-roles:
+      - TEACHER
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "ATTENDANCE", anyOf = {"ATTENDANCE_SCOPED"})'
 components:
   securitySchemes:
     bearerAuth:
@@ -1814,10 +2144,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -1826,16 +2162,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:

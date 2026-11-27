@@ -41,6 +41,23 @@ public class TenantFilter extends OncePerRequestFilter {
         this.directoryCache = directoryCache;
     }
 
+    /**
+     * Cross-branch read scope: GET /api/v1/admin/branches/comparison, or GET /api/v1/admin/... with
+     * scope=ALL_BRANCHES, by an org-wide role. Adds the caller's other org-wide branches of the same organisation.
+     */
+    static java.util.List<Long> readBranches(HttpServletRequest request, AuthUser user, SchoolAccess school) {
+        if (school == null || !school.orgWide() || !"GET".equals(request.getMethod())
+                || !request.getRequestURI().startsWith("/api/v1/admin/")) {
+            return java.util.List.of();
+        }
+        boolean all = request.getRequestURI().equals("/api/v1/admin/branches/comparison")
+                || "ALL_BRANCHES".equals(request.getParameter("scope"));
+        if (!all) return java.util.List.of();
+        return user.schools().stream()
+                .filter(s -> s.orgWide() && s.organizationId() == school.organizationId() && s.schoolId() != school.schoolId())
+                .map(SchoolAccess::schoolId).toList();
+    }
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         return !request.getRequestURI().startsWith("/api/v1/");
@@ -86,7 +103,7 @@ public class TenantFilter extends OncePerRequestFilter {
             directoryCache.touch(user, school);
         }
 
-        TenantContext.set(new RequestContext(user, school, requestId));
+        TenantContext.set(new RequestContext(user, school, requestId, readBranches(request, user, school)));
         try {
             chain.doFilter(request, response);
         } finally {
