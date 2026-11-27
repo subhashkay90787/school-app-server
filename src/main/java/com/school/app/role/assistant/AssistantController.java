@@ -1,6 +1,5 @@
 package com.school.app.role.assistant;
 
-import com.school.app.role.assistant.api.AssistantApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class AssistantController implements AssistantApi {
+public class AssistantController extends AssistantCrud {
 }

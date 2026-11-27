@@ -361,7 +361,7 @@ paths:
       - STAFF
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "FACILITY")'
   /api/v1/staff/tasks/{ticketId}:
-    patch:
+    put:
       tags:
       - Staff
       operationId: updateTask
@@ -405,6 +405,119 @@ paths:
       x-base-roles:
       - STAFF
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "FACILITY")'
+    get:
+      tags:
+      - Staff
+      operationId: getTicket
+      summary: One ticket (detail)
+      parameters:
+      - name: ticketId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: FACILITY
+      x-base-roles:
+      - STAFF
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "FACILITY")'
+  /api/v1/staff/library/books/{bookId}:
+    get:
+      tags:
+      - Staff
+      operationId: getLibraryBook
+      summary: One libraryBook (detail)
+      parameters:
+      - name: bookId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryBook'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: LIBRARY
+      x-base-roles:
+      - STAFF
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "LIBRARY")'
+  /api/v1/staff/library/overdue/{borrowingId}:
+    get:
+      tags:
+      - Staff
+      operationId: getLibraryBorrowing
+      summary: One libraryBorrowing (detail)
+      parameters:
+      - name: borrowingId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryBorrowing'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: LIBRARY
+      x-base-roles:
+      - STAFF
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "LIBRARY")'
 components:
   securitySchemes:
     bearerAuth:
@@ -456,10 +569,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -468,16 +587,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:

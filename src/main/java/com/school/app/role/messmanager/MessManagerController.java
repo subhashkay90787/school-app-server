@@ -1,6 +1,5 @@
 package com.school.app.role.messmanager;
 
-import com.school.app.role.messmanager.api.MessManagerApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class MessManagerController implements MessManagerApi {
+public class MessManagerController extends MessManagerCrud {
 }

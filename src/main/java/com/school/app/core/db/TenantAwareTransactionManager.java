@@ -39,13 +39,17 @@ public class TenantAwareTransactionManager extends JpaTransactionManager {
         boolean system = SystemContext.isActive();
         em.createNativeQuery("SELECT set_config('app.school_ids', :schools, true), set_config('app.org_ids', :orgs, true), "
                         + "set_config('app.user_id', :user, true), set_config('app.request_id', :req, true), "
-                        + "set_config('app.via', :via, true), set_config('app.rls_bypass', :bypass, true)")
+                        + "set_config('app.via', :via, true), set_config('app.rls_bypass', :bypass, true), "
+                        // "today", local times and date casts follow the branch's time zone
+                        + "set_config('TimeZone', :tz, true)")
                 .setParameter("schools", ctx == null ? "" : ctx.schoolIdsSetting())
                 .setParameter("orgs", ctx == null ? "" : ctx.orgIdsSetting())
                 .setParameter("user", ctx == null ? "" : Long.toString(ctx.userId()))
                 .setParameter("req", ctx == null ? "" : ctx.requestId())
                 .setParameter("via", system ? "SYSTEM" : "APP")
                 .setParameter("bypass", system ? "on" : "")
+                .setParameter("tz", ctx == null || ctx.school() == null || ctx.school().timezone() == null
+                        ? "UTC" : ctx.school().timezone())
                 .getResultList();
     }
 }

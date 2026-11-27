@@ -53,6 +53,44 @@ paths:
         anyOf: []
       x-base-roles:
       - PARENT
+  /api/v1/parent/children/{studentId}:
+    get:
+      tags:
+      - Parent
+      operationId: getChild
+      summary: Child profile card (class, residency, alerts, parents)
+      parameters:
+      - name: studentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentCard'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: null
+        anyOf: []
+      x-base-roles:
+      - PARENT
   /api/v1/parent/home:
     get:
       tags:
@@ -1450,6 +1488,214 @@ paths:
       x-base-roles:
       - PARENT
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "ADMISSIONS")'
+  /api/v1/parent/children/{studentId}/leave/{requestId}:
+    get:
+      tags:
+      - Parent
+      operationId: getStudentLeaveRequest
+      summary: One studentLeaveRequest (detail)
+      parameters:
+      - name: studentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentLeaveRequest'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: ATTENDANCE
+        anyOf:
+        - ATTENDANCE_SCOPED
+      x-base-roles:
+      - PARENT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "ATTENDANCE", anyOf = {"ATTENDANCE_SCOPED"})'
+  /api/v1/parent/payments/{paymentId}:
+    get:
+      tags:
+      - Parent
+      operationId: getPayment
+      summary: One payment (detail)
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: FEE_MANAGEMENT
+        anyOf:
+        - FEE_MANAGEMENT_SCOPED
+      x-base-roles:
+      - PARENT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "FEE_MANAGEMENT", anyOf = {"FEE_MANAGEMENT_SCOPED"})'
+  /api/v1/parent/children/{studentId}/pickup-people/{pickupPersonId}:
+    get:
+      tags:
+      - Parent
+      operationId: getPickupPerson
+      summary: One pickupPerson (detail)
+      parameters:
+      - name: studentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: pickupPersonId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PickupPerson'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: GATE
+        anyOf:
+        - GATE_SCOPED
+      x-base-roles:
+      - PARENT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "GATE", anyOf = {"GATE_SCOPED"})'
+  /api/v1/parent/ptm/slots/{slotId}:
+    get:
+      tags:
+      - Parent
+      operationId: getPtmSlot
+      summary: One ptmSlot (detail)
+      parameters:
+      - name: slotId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PtmSlot'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: PTM
+      x-base-roles:
+      - PARENT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "PTM")'
+  /api/v1/parent/reenrollments/{reenrollmentId}:
+    get:
+      tags:
+      - Parent
+      operationId: getReenrollment
+      summary: One reenrollment (detail)
+      parameters:
+      - name: reenrollmentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reenrollment'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: ADMISSIONS
+      x-base-roles:
+      - PARENT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "ADMISSIONS")'
 components:
   securitySchemes:
     bearerAuth:
@@ -1501,10 +1747,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -1513,16 +1765,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:
@@ -2616,6 +2877,33 @@ components:
           type: string
           format: date-time
       description: 'DUES_HOLD: ''Report card is ready. It will open once fees are cleared, or contact the office.'''
+    StudentCard:
+      type: object
+      properties:
+        studentId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        rollNo:
+          type: string
+        photoUrl:
+          type: string
+        classSection:
+          type: string
+        residency:
+          type: string
+        alerts:
+          type: array
+          items:
+            type: string
+        duesHold:
+          type: boolean
+        parents:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonRef'
+      description: Health shows alert flags only (allergy, asthma, inhaler location), with consent
     StudentLeaveRequest:
       type: object
       description: Table operations.student_leave_request (ER v5)

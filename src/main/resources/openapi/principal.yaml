@@ -256,7 +256,7 @@ paths:
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "STAFF_PRESENCE", anyOf = {"STAFF_PRESENCE_VIEW",
         "STAFF_PRESENCE_MANAGE"})'
   /api/v1/principal/staff-presence/{presenceId}:
-    patch:
+    put:
       tags:
       - Principal
       operationId: correctStaffPresence
@@ -505,7 +505,7 @@ paths:
       - PRINCIPAL
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "DISCIPLINE")'
   /api/v1/principal/incidents/{incidentId}:
-    patch:
+    put:
       tags:
       - Principal
       operationId: updateIncident
@@ -525,6 +525,43 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/IncidentInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: DISCIPLINE
+      x-base-roles:
+      - PRINCIPAL
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "DISCIPLINE")'
+    get:
+      tags:
+      - Principal
+      operationId: getIncident
+      summary: One incident (detail)
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
       responses:
         '200':
           description: OK
@@ -849,7 +886,7 @@ paths:
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "CALENDAR", anyOf = {"COMMUNICATION_MANAGE",
         "ACADEMICS_MANAGE"})'
   /api/v1/principal/calendar/events/{eventId}:
-    patch:
+    put:
       tags:
       - Principal
       operationId: updateEvent
@@ -1009,6 +1046,120 @@ paths:
       x-base-roles:
       - PRINCIPAL
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "TIMETABLE", anyOf = {"ACADEMICS_MANAGE"})'
+  /api/v1/principal/circulars/{notificationId}:
+    get:
+      tags:
+      - Principal
+      operationId: getNotification
+      summary: One notification (detail)
+      parameters:
+      - name: notificationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: COMMUNICATION
+      x-base-roles:
+      - PRINCIPAL
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "COMMUNICATION")'
+  /api/v1/principal/report-cards/{reportCardId}:
+    get:
+      tags:
+      - Principal
+      operationId: getReportCard
+      summary: One reportCard (detail)
+      parameters:
+      - name: reportCardId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportCard'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: REPORT_CARDS
+      x-base-roles:
+      - PRINCIPAL
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "REPORT_CARDS")'
+  /api/v1/principal/timetable/versions/{timetableVersionId}:
+    get:
+      tags:
+      - Principal
+      operationId: getTimetableVersion
+      summary: One timetableVersion (detail)
+      parameters:
+      - name: timetableVersionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimetableVersion'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: TIMETABLE
+      x-base-roles:
+      - PRINCIPAL
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "TIMETABLE")'
 components:
   securitySchemes:
     bearerAuth:
@@ -1060,10 +1211,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -1072,16 +1229,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:

@@ -1,6 +1,5 @@
 package com.school.app.role.matron;
 
-import com.school.app.role.matron.api.MatronApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class MatronController implements MatronApi {
+public class MatronController extends MatronCrud {
 }

@@ -1,6 +1,5 @@
 package com.school.app.role.accountant;
 
-import com.school.app.role.accountant.api.AccountantApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class AccountantController implements AccountantApi {
+public class AccountantController extends AccountantCrud {
 }

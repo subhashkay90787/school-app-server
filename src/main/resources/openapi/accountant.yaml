@@ -909,7 +909,7 @@ paths:
       - ACCOUNTANT
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "EXPENSES", anyOf = {"EXPENSES_MANAGE"})'
   /api/v1/accountant/expenses/{expenseId}:
-    patch:
+    put:
       tags:
       - Accountant
       operationId: updateExpense
@@ -955,6 +955,43 @@ paths:
       x-base-roles:
       - ACCOUNTANT
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "EXPENSES", anyOf = {"EXPENSES_MANAGE"})'
+    get:
+      tags:
+      - Accountant
+      operationId: getExpense
+      summary: One expense (detail)
+      parameters:
+      - name: expenseId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: EXPENSES
+      x-base-roles:
+      - ACCOUNTANT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "EXPENSES")'
   /api/v1/accountant/expenses/{expenseId}/submit:
     post:
       tags:
@@ -1437,6 +1474,324 @@ paths:
       x-base-roles:
       - ACCOUNTANT
       x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "REPORTS")'
+  /api/v1/accountant/payments/{paymentId}:
+    get:
+      tags:
+      - Accountant
+      operationId: getPayment
+      summary: One payment (detail)
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: FEE_MANAGEMENT
+        anyOf:
+        - FEE_MANAGEMENT_MANAGE
+        - FEE_MANAGEMENT_VIEW
+      x-base-roles:
+      - ACCOUNTANT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "FEE_MANAGEMENT", anyOf = {"FEE_MANAGEMENT_MANAGE",
+        "FEE_MANAGEMENT_VIEW"})'
+  /api/v1/accountant/gateway/unmatched/{paymentId}:
+    get:
+      tags:
+      - Accountant
+      operationId: getPaymentOfGateway
+      summary: One payment (detail)
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: FEE_MANAGEMENT
+        anyOf:
+        - FEE_MANAGEMENT_MANAGE
+      x-base-roles:
+      - ACCOUNTANT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "FEE_MANAGEMENT", anyOf = {"FEE_MANAGEMENT_MANAGE"})'
+  /api/v1/accountant/demands/{feeId}:
+    get:
+      tags:
+      - Accountant
+      operationId: getFee
+      summary: One fee (detail)
+      parameters:
+      - name: feeId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fee'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: FEE_MANAGEMENT
+        anyOf:
+        - FEE_MANAGEMENT_MANAGE
+        - FEE_MANAGEMENT_VIEW
+      x-base-roles:
+      - ACCOUNTANT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "FEE_MANAGEMENT", anyOf = {"FEE_MANAGEMENT_MANAGE",
+        "FEE_MANAGEMENT_VIEW"})'
+  /api/v1/accountant/concessions/{studentConcessionId}:
+    get:
+      tags:
+      - Accountant
+      operationId: getStudentConcession
+      summary: One studentConcession (detail)
+      parameters:
+      - name: studentConcessionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentConcession'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: FEE_MANAGEMENT
+      x-base-roles:
+      - ACCOUNTANT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "FEE_MANAGEMENT")'
+  /api/v1/accountant/refunds/{refundId}:
+    get:
+      tags:
+      - Accountant
+      operationId: getRefund
+      summary: One refund (detail)
+      parameters:
+      - name: refundId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refund'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: FEE_MANAGEMENT
+      x-base-roles:
+      - ACCOUNTANT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "FEE_MANAGEMENT")'
+  /api/v1/accountant/petty-cash/{pettyCashId}:
+    get:
+      tags:
+      - Accountant
+      operationId: getPettyCashAccount
+      summary: One pettyCashAccount (detail)
+      parameters:
+      - name: pettyCashId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PettyCashAccount'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: EXPENSES
+      x-base-roles:
+      - ACCOUNTANT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "EXPENSES")'
+  /api/v1/accountant/vendor-invoices/{invoiceId}:
+    get:
+      tags:
+      - Accountant
+      operationId: getVendorInvoice
+      summary: One vendorInvoice (detail)
+      parameters:
+      - name: invoiceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorInvoice'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: EXPENSES
+      x-base-roles:
+      - ACCOUNTANT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "EXPENSES")'
+  /api/v1/accountant/payroll/runs/{runId}:
+    get:
+      tags:
+      - Accountant
+      operationId: getPayrollRun
+      summary: One payrollRun (detail)
+      parameters:
+      - name: runId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/SchoolId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayrollRun'
+        '400':
+          $ref: '#/components/responses/E400'
+        '401':
+          $ref: '#/components/responses/E401'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+      security:
+      - bearerAuth: []
+      x-access:
+        feature: HR_PAYROLL
+        anyOf:
+        - HR_PAYROLL_SCOPED
+        - HR_PAYROLL_VIEW
+      x-base-roles:
+      - ACCOUNTANT
+      x-operation-extra-annotation: '@com.school.app.core.access.Access(feature = "HR_PAYROLL", anyOf = {"HR_PAYROLL_SCOPED",
+        "HR_PAYROLL_VIEW"})'
 components:
   securitySchemes:
     bearerAuth:
@@ -1488,10 +1843,16 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E401:
       description: Missing or invalid access token
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
     E403:
@@ -1500,16 +1861,25 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E404:
       description: Not found in this branch (or not visible to you)
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     E409:
       description: Conflicts with current state (e.g. already approved, ledger rule, duplicate)
       content:
         application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+        application/json:
           schema:
             $ref: '#/components/schemas/Problem'
   schemas:

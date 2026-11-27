@@ -24,6 +24,8 @@ def build(reg):
     c = actor("common", "Common", ["*"], "Shared across roles: context, navigation, inbox, approvals, news feed, "
               "calendar, consents, messages, scan hub, search, files and the employee Me area")
     c.get("/me", "getMe", "Who I am and my access in each branch (from the token)", V("MeContext"), header_school=False)
+    c.get("/profile", "getProfile", "My profile in this branch: user, employee record, teaching details, linked children",
+          V("ProfileView"))
     c.get("/me/navigation", "getNavigation", "Mobile tabs and web sidebar for the current role", V("Navigation"),
           query=[("role", "s", "Role code when the user holds several")])
     c.get("/me/duties", "listMyDuties", "Duty overlays (class teacher, invigilator, escort, warden duties)", arr(V("Duty")))
@@ -132,7 +134,7 @@ def build(reg):
     p.get("/staff-presence", "listStaffPresence", "Staff presence register (own row locked)", V("StaffPresenceRow"),
           paged=True, feature="STAFF_PRESENCE", perms=P("STAFF_PRESENCE_VIEW", "STAFF_PRESENCE_MANAGE"),
           query=[("date", "d"), ("department", "s"), ("status", "s")])
-    p.patch("/staff-presence/{presenceId}", "correctStaffPresence", "Correct a presence row (never your own)",
+    p.put("/staff-presence/{presenceId}", "correctStaffPresence", "Correct a presence row (never your own)",
             E("operations.daily_presence"), body=V("PresenceCorrection"), feature="STAFF_PRESENCE", perms=P("STAFF_PRESENCE_MANAGE"))
     p.get("/academics/heatmap", "getHeatmap", "Class x subject averages", V("Heatmap"), feature="ACADEMICS",
           perms=P("ACADEMICS_VIEW", "ACADEMICS_REPORT"), query=[("termId", "b")])
@@ -144,7 +146,7 @@ def build(reg):
           query=[("severity", "s"), ("status", "s")])
     p.post("/incidents", "createIncident", "Open an incident", E("discipline.incident"), body=I("discipline.incident"),
            feature="DISCIPLINE")
-    p.patch("/incidents/{incidentId}", "updateIncident", "Assign, change status, close", E("discipline.incident"),
+    p.put("/incidents/{incidentId}", "updateIncident", "Assign, change status, close", E("discipline.incident"),
             body=I("discipline.incident"), feature="DISCIPLINE")
     p.post("/incidents/{incidentId}/actions", "addDisciplineAction", "Record an action (warning, outing ban, meeting ...)",
            E("discipline.action"), body=I("discipline.action", drop=("incident_id", "parent_notified_at")), feature="DISCIPLINE")
@@ -159,7 +161,7 @@ def build(reg):
            feature="REPORT_CARDS", perms=P("ACADEMICS_MANAGE", "RECORDS_APPROVE"))
     p.post("/calendar/events", "createEvent", "Add a holiday / event / PTM day", E("calendar.event"), body=I("calendar.event"),
            feature="CALENDAR", perms=P("COMMUNICATION_MANAGE", "ACADEMICS_MANAGE"))
-    p.patch("/calendar/events/{eventId}", "updateEvent", "Change an event", E("calendar.event"), body=I("calendar.event"),
+    p.put("/calendar/events/{eventId}", "updateEvent", "Change an event", E("calendar.event"), body=I("calendar.event"),
             feature="CALENDAR", perms=P("COMMUNICATION_MANAGE", "ACADEMICS_MANAGE"))
     p.delete("/calendar/events/{eventId}", "deleteEvent", "Delete an event", feature="CALENDAR",
              perms=P("COMMUNICATION_MANAGE", "ACADEMICS_MANAGE"))
@@ -179,7 +181,7 @@ def build(reg):
            body=I("academics.student"), feature="ACADEMICS", perms=P("ACADEMICS_MANAGE"))
     s.get("/students/{studentId}", "getStudentProfile", "Student profile", V("StudentProfile"), feature="ACADEMICS",
           perms=P("ACADEMICS_VIEW", "ACADEMICS_MANAGE"))
-    s.patch("/students/{studentId}", "updateStudent", "Update a student", E("academics.student"), body=I("academics.student"),
+    s.put("/students/{studentId}", "updateStudent", "Update a student", E("academics.student"), body=I("academics.student"),
             feature="ACADEMICS", perms=P("ACADEMICS_MANAGE"))
     s.post("/students/{studentId}/parents", "linkParent", "Link a parent (existing user or invite)", E("academics.student_parent"),
            body=V("ParentLinkInput"), feature="ACADEMICS", perms=P("ACADEMICS_MANAGE"))
@@ -211,7 +213,7 @@ def build(reg):
         perm = "FEE_MANAGEMENT_MANAGE" if feat == "FEE_MANAGEMENT" else "ACADEMICS_MANAGE"
         s.get(path, "list" + op + "s", label, arr(E(table)), feature=feat)
         s.post(path, "create" + op, "Add: " + label.lower(), E(table), body=I(table), feature=feat, perms=P(perm))
-        s.patch(path + "/{id}", "update" + op, "Change: " + label.lower(), E(table), body=I(table), feature=feat, perms=P(perm))
+        s.put(path + "/{id}", "update" + op, "Change: " + label.lower(), E(table), body=I(table), feature=feat, perms=P(perm))
     s.post("/academic-years/{academicYearId}/terms", "createTerm", "Add a term / semester", E("academics.academic_term"),
            body=I("academics.academic_term", drop=("academic_year_id",)), feature="ACADEMICS", perms=P("ACADEMICS_MANAGE"))
     s.post("/staff-subjects", "assignSubject", "Assign a subject to a teacher", E("academics.staff_subject"),
@@ -310,7 +312,7 @@ def build(reg):
            query=[("status", "s"), ("costCentre", "s"), ("from", "d"), ("to", "d")])
     ac.post("/expenses", "createExpense", "Expense with bill photo; routed to an approver by band", E("accounts.expense"),
             body=I("accounts.expense", drop=("paid_at", "voucher_number")), feature=X, perms=P("EXPENSES_MANAGE"))
-    ac.patch("/expenses/{expenseId}", "updateExpense", "Edit a draft expense", E("accounts.expense"),
+    ac.put("/expenses/{expenseId}", "updateExpense", "Edit a draft expense", E("accounts.expense"),
              body=I("accounts.expense", drop=("paid_at", "voucher_number")), feature=X, perms=P("EXPENSES_MANAGE"))
     ac.post("/expenses/{expenseId}/submit", "submitExpense", "Submit for approval", V("ApprovalItem"), feature=X,
             perms=P("EXPENSES_MANAGE"))
@@ -353,7 +355,7 @@ def build(reg):
     h.get("/shifts", "listShifts", "Shifts", arr(E("hr.shift")), feature="STAFF_PRESENCE")
     h.post("/shifts", "createShift", "Add a shift", E("hr.shift"), body=I("hr.shift"), feature="STAFF_PRESENCE",
            perms=P("STAFF_PRESENCE_MANAGE", "HR_PAYROLL_MANAGE"))
-    h.patch("/shifts/{shiftId}", "updateShift", "Change a shift", E("hr.shift"), body=I("hr.shift"), feature="STAFF_PRESENCE",
+    h.put("/shifts/{shiftId}", "updateShift", "Change a shift", E("hr.shift"), body=I("hr.shift"), feature="STAFF_PRESENCE",
             perms=P("STAFF_PRESENCE_MANAGE", "HR_PAYROLL_MANAGE"))
     h.get("/shift-assignments", "listShiftAssignments", "Shift patterns per person", arr(E("hr.shift_assignment")),
           feature="STAFF_PRESENCE", query=[("userId", "b")])
@@ -385,7 +387,7 @@ def build(reg):
     h.get("/job-openings/{openingId}/candidates", "listCandidates", "Candidates", arr(E("hr.candidate")), feature=HR)
     h.post("/job-openings/{openingId}/candidates", "addCandidate", "Add a candidate", E("hr.candidate"),
            body=I("hr.candidate", drop=("opening_id",)), feature=HR, perms=P("HR_PAYROLL_MANAGE"))
-    h.patch("/candidates/{candidateId}", "updateCandidate", "Move a candidate between stages", E("hr.candidate"),
+    h.put("/candidates/{candidateId}", "updateCandidate", "Move a candidate between stages", E("hr.candidate"),
             body=I("hr.candidate"), feature=HR, perms=P("HR_PAYROLL_MANAGE"))
 
     # ===================================================================== Admission Officer
@@ -397,7 +399,7 @@ def build(reg):
     ad.get("/enquiries", "listEnquiries", "Enquiries", E("admissions.enquiry"), paged=True, feature=AD,
            query=[("stage", "s"), ("q", "s"), ("ownerUserId", "b"), ("source", "s")])
     ad.get("/enquiries/{enquiryId}", "getEnquiry", "Enquiry with follow-ups", E("admissions.enquiry"), feature=AD)
-    ad.patch("/enquiries/{enquiryId}", "updateEnquiry", "Move stage (LOST needs a reason), owner, next follow-up",
+    ad.put("/enquiries/{enquiryId}", "updateEnquiry", "Move stage (LOST needs a reason), owner, next follow-up",
              E("admissions.enquiry"), body=V("EnquiryUpdate"), feature=AD, perms=P("ADMISSIONS_MANAGE"))
     ad.post("/enquiries/{enquiryId}/follow-ups", "addFollowUp", "Log a call / WhatsApp / visit", E("admissions.enquiry_follow_up"),
             body=I("admissions.enquiry_follow_up", drop=("enquiry_id", "done_at")), feature=AD, perms=P("ADMISSIONS_MANAGE"))
@@ -409,14 +411,14 @@ def build(reg):
             body=I("admissions.application", drop=("application_number", "decided_at", "submitted_at", "student_id", "application_fee_id")),
             feature=AD, perms=P("ADMISSIONS_MANAGE"))
     ad.get("/applications/{applicationId}", "getApplication", "Application", E("admissions.application"), feature=AD)
-    ad.patch("/applications/{applicationId}", "updateApplication", "Edit form data", E("admissions.application"),
+    ad.put("/applications/{applicationId}", "updateApplication", "Edit form data", E("admissions.application"),
              body=I("admissions.application", drop=("application_number", "decided_at", "submitted_at", "student_id", "application_fee_id")),
              feature=AD, perms=P("ADMISSIONS_MANAGE"))
     ad.post("/applications/{applicationId}/decision", "decideApplication", "Offer / waitlist / reject", E("admissions.application"),
             body=V("AdmissionDecision"), feature=AD, perms=P("ADMISSIONS_MANAGE"))
     ad.post("/applications/{applicationId}/assessments", "scheduleAssessment", "Schedule a test or interview",
             E("admissions.assessment"), body=I("admissions.assessment", drop=("application_id",)), feature=AD, perms=P("ADMISSIONS_MANAGE"))
-    ad.patch("/assessments/{assessmentId}", "recordAssessment", "Record score and remarks", E("admissions.assessment"),
+    ad.put("/assessments/{assessmentId}", "recordAssessment", "Record score and remarks", E("admissions.assessment"),
              body=I("admissions.assessment"), feature=AD, perms=P("ADMISSIONS_MANAGE"))
     ad.get("/applications/{applicationId}/conversion-preview", "previewConversion",
            "What conversion will create: student, parents, enrollment, first fee demand, hostel/transport requests",
@@ -470,6 +472,8 @@ def build(reg):
     t.post("/timetable/{timetableId}/taught", "markTaught", "Mark a period taught (updates the lesson plan)", V("PeriodSlot"),
            body=V("TaughtInput"), feature="LESSON_PLANS", perms=A_)
     t.get("/classes", "listMyClasses", "My sections and subjects", arr(V("ClassSummary")), feature="ACADEMICS", perms=A_)
+    t.get("/students/{studentId}", "getStudent", "Student card (alerts, parents) for a student I teach", V("StudentCard"),
+          feature="ACADEMICS", perms=A_)
     t.get("/classes/{classSectionId}/students", "listClassStudents", "Students with alert flags", arr(V("StudentCard")),
           feature="ACADEMICS", perms=A_)
     t.get("/classes/{classSectionId}/register", "getRegister", "Register for a day (class teacher)", V("RegisterSheet"),
@@ -490,12 +494,12 @@ def build(reg):
           query=[("classSectionId", "b"), ("from", "d")])
     t.post("/homework", "createHomework", "Set homework for one or more sections", E("operations.homework"),
            body=I("operations.homework"), feature="HOMEWORK", perms=A_)
-    t.patch("/homework/{homeworkId}", "updateHomework", "Edit homework", E("operations.homework"), body=I("operations.homework"),
+    t.put("/homework/{homeworkId}", "updateHomework", "Edit homework", E("operations.homework"), body=I("operations.homework"),
             feature="HOMEWORK", perms=A_)
     t.delete("/homework/{homeworkId}", "deleteHomework", "Delete homework", feature="HOMEWORK", perms=A_)
     t.get("/homework/{homeworkId}/submissions", "listSubmissions", "Submissions", arr(E("operations.homework_submission")),
           feature="HOMEWORK", perms=A_)
-    t.patch("/homework/{homeworkId}/submissions/{submissionId}", "gradeSubmission", "Grade or return a submission",
+    t.put("/homework/{homeworkId}/submissions/{submissionId}", "gradeSubmission", "Grade or return a submission",
             E("operations.homework_submission"), body=V("GradeInput"), feature="HOMEWORK", perms=A_)
     t.post("/homework/{homeworkId}/exceptions", "logHomeworkException", "Log incomplete / not submitted",
            E("operations.homework_exception"), body=I("operations.homework_exception", drop=("homework_id",)),
@@ -506,7 +510,7 @@ def build(reg):
           perms=A_, query=[("classSectionId", "b"), ("from", "d"), ("to", "d")])
     t.post("/lesson-plans", "createLessonPlan", "Plan a lesson", E("learning.lesson_plan"), body=I("learning.lesson_plan"),
            feature="LESSON_PLANS", perms=A_)
-    t.patch("/lesson-plans/{planId}", "updateLessonPlan", "Change a lesson plan", E("learning.lesson_plan"),
+    t.put("/lesson-plans/{planId}", "updateLessonPlan", "Change a lesson plan", E("learning.lesson_plan"),
             body=I("learning.lesson_plan"), feature="LESSON_PLANS", perms=A_)
     t.get("/student-leave-requests", "listStudentLeaveRequests", "Parent leave requests (decide in Approvals)",
           arr(E("operations.student_leave_request")), feature="ATTENDANCE", perms=P("ATTENDANCE_SCOPED"), query=[("status", "s")])
@@ -519,7 +523,7 @@ def build(reg):
     t.get("/ptm/slots", "listMyPtmSlots", "My PTM slots and bookings", arr(E("communication.ptm_slot")), feature="PTM")
     t.post("/ptm/{ptmId}/slots", "publishPtmSlots", "Publish slots", arr(E("communication.ptm_slot")), body=V("PtmSlotsInput"),
            feature="PTM", perms=P("COMMUNICATION_SCOPED"))
-    t.patch("/ptm/slots/{slotId}", "updatePtmSlot", "Notes after the meeting", E("communication.ptm_slot"), body=V("PtmNotesInput"),
+    t.put("/ptm/slots/{slotId}", "updatePtmSlot", "Notes after the meeting", E("communication.ptm_slot"), body=V("PtmNotesInput"),
             feature="PTM")
     t.get("/invigilation", "listInvigilation", "Exam-day cards (hall, seating, candidates)", arr(V("InvigilationCard")),
           feature="EXAMS", query=[("date", "d")])
@@ -528,7 +532,7 @@ def build(reg):
            body=V("ArrivalCheckIn"), feature="HOSTEL")
     t.get("/report-cards", "listReportCardsForRemarks", "Report cards needing my remarks", arr(E("assessment.report_card")),
           feature="REPORT_CARDS", perms=A_, query=[("termId", "b"), ("classSectionId", "b")])
-    t.patch("/report-cards/{reportCardId}", "addRemark", "Class teacher remark", E("assessment.report_card"), body=V("RemarkInput"),
+    t.put("/report-cards/{reportCardId}", "addRemark", "Class teacher remark", E("assessment.report_card"), body=V("RemarkInput"),
             feature="REPORT_CARDS", perms=A_)
     t.post("/report-cards/submit", "submitReportCards", "Send remarks done for Principal approval", V("BulkResult"),
            body=V("IdList"), feature="REPORT_CARDS", perms=A_)
@@ -541,6 +545,7 @@ def build(reg):
                "outings, pickups, wallet, messages. Sees only linked children")
     PS = P("ATTENDANCE_SCOPED")
     pa.get("/children", "listChildren", "Linked children with status dots", arr(V("ChildSummary")))
+    pa.get("/children/{studentId}", "getChild", "Child profile card (class, residency, alerts, parents)", V("StudentCard"))
     pa.get("/home", "getHome", "Home for one child (day scholar or hosteller variant)", V("HomeFeed"), query=[("studentId", "b")])
     pa.get("/children/{studentId}/attendance", "getAttendance", "Month calendar", V("AttendanceCalendar"), feature="ATTENDANCE",
            perms=PS, query=[("month", "s", "yyyy-MM")])
@@ -607,6 +612,7 @@ def build(reg):
     st = actor("student", "Student", ["STUDENT"], "Adult / college students only (no app for minors): classwork, results, "
                "attendance shortfall, fees, hostel self-service")
     SELF = P("ACADEMICS_SELF")
+    st.get("/profile", "getMyStudentRecord", "My student record", E("academics.student"), perms=SELF)
     st.get("/home", "getHome", "Next class, assignments due, quiz open, outing status, attendance shortfall", V("HomeFeed"))
     st.get("/timetable", "getTimetable", "My timetable", V("TimetableGrid"), feature="TIMETABLE", perms=SELF)
     st.get("/attendance", "getAttendance", "Attendance % per subject with shortfall warning", arr(V("SubjectAttendance")),
@@ -645,7 +651,7 @@ def build(reg):
     HM = P("HOSTEL_MANAGE")
     cw.get("/home", "getHome", "Missing students, leave/room/damage approvals, roll-call completion, occupancy", V("HomeFeed"))
     cw.get("/hostels", "listHostels", "Hostels", arr(E("hostel.hostel")), feature=H)
-    cw.patch("/hostels/{hostelId}", "updateHostel", "Curfews and status", E("hostel.hostel"), body=I("hostel.hostel"), feature=H, perms=HM)
+    cw.put("/hostels/{hostelId}", "updateHostel", "Curfews and status", E("hostel.hostel"), body=I("hostel.hostel"), feature=H, perms=HM)
     cw.get("/hostels/{hostelId}/now", "getHostelNow", "Roll-call by block, on outing, overdue, sick bay, phones", V("HostelNow"), feature=H)
     cw.get("/hostels/{hostelId}/allocation-board", "getAllocationBoard", "Rooms and beds by floor with the waitlist",
            V("AllocationBoard"), feature=H, query=[("floor", "i"), ("gender", "s"), ("roomType", "s")])
@@ -665,7 +671,7 @@ def build(reg):
     cw.post("/travel-groups", "createTravelGroup", "Vacation departure / station drop group", E("hostel.outing_group"),
             body=I("hostel.outing_group"), feature=H, perms=HM)
     cw.get("/travel-groups/{groupId}", "getTravelGroup", "Day-of board", V("TravelGroupBoard"), feature=H)
-    cw.patch("/travel-groups/{groupId}", "updateTravelGroup", "Change times, escort, vehicle", E("hostel.outing_group"),
+    cw.put("/travel-groups/{groupId}", "updateTravelGroup", "Change times, escort, vehicle", E("hostel.outing_group"),
              body=I("hostel.outing_group"), feature=H, perms=HM)
     cw.post("/travel-groups/{groupId}/students", "addStudentsToGroup", "Add students (bulk by class / block); parents confirm",
             V("TravelGroupBoard"), body=V("IdList"), feature=H, perms=HM)
@@ -761,7 +767,7 @@ def build(reg):
     n.post("/visits", "recordVisit", "Visit: complaint, vitals, treatment, disposition", E("wellbeing.infirmary_visit"),
            body=I("wellbeing.infirmary_visit", drop=("visited_at", "parent_notified_at", "discharged_at")), feature="HEALTH", perms=HN)
     n.get("/visits", "listVisits", "Visits", E("wellbeing.infirmary_visit"), paged=True, feature="HEALTH", perms=HN, query=[("date", "d")])
-    n.patch("/visits/{visitId}", "updateVisit", "Update treatment / disposition", E("wellbeing.infirmary_visit"),
+    n.put("/visits/{visitId}", "updateVisit", "Update treatment / disposition", E("wellbeing.infirmary_visit"),
             body=V("VisitUpdate"), feature="HEALTH", perms=HN)
     n.post("/visits/{visitId}/notify-parent", "notifyParent", "Call / notify the parent", E("wellbeing.infirmary_visit"),
            feature="HEALTH", perms=HN)
@@ -793,7 +799,7 @@ def build(reg):
            feature="MESS", query=[("status", "s")])
     mm.post("/subscriptions", "createSubscription", "Subscribe a student / staff diner", E("hostel.mess_subscription"),
             body=I("hostel.mess_subscription"), feature="MESS", perms=MS)
-    mm.patch("/subscriptions/{subscriptionId}", "updateSubscription", "Pause / end", E("hostel.mess_subscription"),
+    mm.put("/subscriptions/{subscriptionId}", "updateSubscription", "Pause / end", E("hostel.mess_subscription"),
              body=I("hostel.mess_subscription"), feature="MESS", perms=MS)
     mm.post("/meal-attendance", "recordMeal", "Count a meal (manual; scans go through /common/scan)", E("hostel.meal_attendance"),
             body=V("MealScanInput"), feature="MESS", perms=MS)
@@ -870,7 +876,7 @@ def build(reg):
            query=[("date", "d")])
     ss.get("/occurrences", "listOccurrences", "Occurrences", E("security.occurrence"), paged=True, feature="SECURITY",
            query=[("status", "s"), ("severity", "s")])
-    ss.patch("/occurrences/{occurrenceId}", "updateOccurrence", "Acknowledge, escalate, resolve", E("security.occurrence"),
+    ss.put("/occurrences/{occurrenceId}", "updateOccurrence", "Acknowledge, escalate, resolve", E("security.occurrence"),
              body=V("OccurrenceUpdate"), feature="SECURITY", perms=SM)
     ss.get("/keys", "listKeys", "Key register", arr(V("KeyStatus")), feature="SECURITY")
     ss.post("/keys", "createKey", "Add a key", E("security.key"), body=I("security.key"), feature="SECURITY", perms=SM)
@@ -893,7 +899,7 @@ def build(reg):
     sf.get("/library/overdue", "listOverdue", "Overdue borrowings", arr(E("library.library_borrowing")), feature=L)
     sf.post("/library/overdue/reminders", "sendOverdueReminders", "Send overdue reminders", V("BulkResult"), feature=L, perms=LM)
     sf.get("/tasks", "listMyTasks", "Tickets assigned to me", arr(E("facility.ticket")), feature="FACILITY")
-    sf.patch("/tasks/{ticketId}", "updateTask", "Progress / resolve a ticket", E("facility.ticket"), body=V("TicketUpdate"),
+    sf.put("/tasks/{ticketId}", "updateTask", "Progress / resolve a ticket", E("facility.ticket"), body=V("TicketUpdate"),
              feature="FACILITY")
 
     # ===================================================================== Store Keeper
@@ -908,7 +914,7 @@ def build(reg):
                                    ("/vendors", "Vendor", "inventory.vendor", "Vendors")]:
         sk.get(path, "list" + op + "s", label, arr(E(table)), feature=IV)
         sk.post(path, "create" + op, "Add: " + label.lower(), E(table), body=I(table), feature=IV, perms=IM)
-        sk.patch(path + "/{id}", "update" + op, "Change: " + label.lower(), E(table), body=I(table), feature=IV, perms=IM)
+        sk.put(path + "/{id}", "update" + op, "Change: " + label.lower(), E(table), body=I(table), feature=IV, perms=IM)
     sk.get("/requisitions", "listRequisitions", "Requisitions", E("inventory.requisition"), paged=True, feature=IV, query=[("status", "s")])
     sk.post("/requisitions/{requisitionId}/issue", "issueRequisition", "Issue an approved requisition from stock",
             arr(E("inventory.inventory_transaction")), body=V("StockIssueInput"), feature=IV, perms=IM)
@@ -947,7 +953,7 @@ def build(reg):
     tm.get("/live", "getLiveTrips", "All trips with on-time status", arr(V("LiveTrip")), feature=T)
     tm.get("/routes", "listRoutes", "Routes", arr(E("transport.route")), feature=T)
     tm.post("/routes", "createRoute", "Add a route", E("transport.route"), body=I("transport.route"), feature=T, perms=TMM)
-    tm.patch("/routes/{routeId}", "updateRoute", "Change vehicle, driver, attendant", E("transport.route"), body=I("transport.route"),
+    tm.put("/routes/{routeId}", "updateRoute", "Change vehicle, driver, attendant", E("transport.route"), body=I("transport.route"),
              feature=T, perms=TMM)
     tm.get("/routes/{routeId}/stops", "listStops", "Stops", arr(E("transport.stop")), feature=T)
     tm.put("/routes/{routeId}/stops", "saveStops", "Route builder: stops, order, times", arr(E("transport.stop")), body=V("StopsInput"),
@@ -957,7 +963,7 @@ def build(reg):
             body=I("transport.student_route"), feature=T, perms=TMM)
     tm.get("/vehicles", "listVehicles", "Vehicles", arr(E("transport.vehicle")), feature=T)
     tm.post("/vehicles", "createVehicle", "Add a vehicle", E("transport.vehicle"), body=I("transport.vehicle"), feature=T, perms=TMM)
-    tm.patch("/vehicles/{vehicleId}", "updateVehicle", "Update documents and status", E("transport.vehicle"),
+    tm.put("/vehicles/{vehicleId}", "updateVehicle", "Update documents and status", E("transport.vehicle"),
              body=I("transport.vehicle"), feature=T, perms=TMM)
     tm.get("/compliance/expiring", "listExpiringCompliance", "Insurance, fitness, permit, PUC, licences expiring",
            arr(V("ComplianceItem")), feature=T, query=[("days", "i")])

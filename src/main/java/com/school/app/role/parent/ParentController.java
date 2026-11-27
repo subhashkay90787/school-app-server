@@ -1,6 +1,5 @@
 package com.school.app.role.parent;
 
-import com.school.app.role.parent.api.ParentApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class ParentController implements ParentApi {
+public class ParentController extends ParentCrud {
 }

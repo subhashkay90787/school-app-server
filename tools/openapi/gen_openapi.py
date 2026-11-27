@@ -44,10 +44,109 @@ def dump(spec, path):
         yaml.dump(spec, f, Dumper=Dumper, sort_keys=False, width=120, allow_unicode=True)
 
 
+DATE_PRIORITY = ("date", "presence_date", "roll_date", "duty_date", "trip_date", "log_date", "expense_date",
+                 "assigned_date", "exam_date", "start_date", "from_date", "issued_on", "received_on", "filled_on",
+                 "planned_date", "audit_date", "checkup_date", "meal_date", "drive_date", "invoice_date", "order_date")
+SEARCH_NAMES = ("name", "first_name", "last_name", "title", "child_name", "phone", "code", "item_name", "room_name",
+                "section_name", "program_code", "subject_name", "employee_code", "student_admission_number", "isbn",
+                "author", "vehicle_number", "registration_number", "application_number", "voucher_number",
+                "po_number", "invoice_number", "room_number", "barcode", "barcode_id", "tag_code", "body")
+
+
+def write_metadata(reg, actors):
+    """tables.json (CRUD engine) and operations.json (controller generator) for the Java side."""
+    import re
+    tables = {}
+    for name, t in reg.tables.items():
+        cols = []
+        for c in t.columns:
+            cols.append({"name": c.name, "camel": re.sub(r"_([a-z])", lambda m: m.group(1).upper(), c.name),
+                         "type": "b" if (c.name.endswith("_id") and c.code in ("i", "b")) else c.code,
+                         "nn": bool(c.nn or c.pk or c.pkc), "fk": c.fk, "enum": c.enum, "hasDefault": c.default is not None})
+        names = [c.name for c in t.columns]
+        date_col = next((d for d in DATE_PRIORITY if d in names), None)
+        if date_col is None:
+            date_col = next((c.name for c in t.columns if c.code == "dt" and c.nn and c.name != "created_at"), None) \
+                or ("created_at" if "created_at" in names else None)
+        tables[name] = {"model": reg.entity_name[name], "pk": t.pk.name if t.pk else None,
+                        "pkc": [c.name for c in t.columns if c.pkc], "pkSchool": t.pk_school,
+                        "nullableTenant": t.nullable_tenant, "columns": cols, "dateColumn": date_col,
+                        "searchColumns": [n for n in SEARCH_NAMES if n in names]}
+    by_model = {v: k for k, v in reg.entity_name.items()}
+
+    def schema_name(r):
+        if not r:
+            return None, None
+        if "$ref" in r:
+            return r["$ref"].rsplit("/", 1)[1], "one"
+        if r.get("type") == "array" and "$ref" in r.get("items", {}):
+            return r["items"]["$ref"].rsplit("/", 1)[1], "array"
+        return None, None
+
+    ops = {}
+    for a in actors:
+        lst = []
+        for o in a.ops:
+            resp, resp_kind = schema_name(o["resp"])
+            if o["paged"] and resp:
+                resp_kind = "page"
+            body, body_kind = schema_name(o["body"])
+            body_fields = list(reg.schemas[body]["properties"].keys()) if body and body_kind == "one" else None
+            lst.append({"method": o["method"], "path": o["path"], "opId": o["op_id"], "resp": resp, "respKind": resp_kind,
+                        "respTable": by_model.get(resp), "body": body, "bodyKind": body_kind,
+                        "bodyTable": by_model.get(body[:-5]) if body and body.endswith("Input") else None,
+                        "bodyFields": body_fields, "pathParams": re.findall(r"\{([A-Za-z]+)\}", o["path"]),
+                        "query": [q[0] for q in o["query"]], "paged": o["paged"], "binary": o["binary"],
+                        "multipart": bool(o["multipart"]), "feature": o["feature"], "perms": o["perms"]})
+        ops[a.key] = {"tag": a.title, "baseRoles": a.base_roles, "ops": lst}
+    meta = os.path.join(ROOT, "src/main/resources/schema")
+    os.makedirs(meta, exist_ok=True)
+    with open(os.path.join(meta, "tables.json"), "w") as f:
+        json.dump(tables, f, indent=1)
+    with open(os.path.join(ROOT, "tools/openapi/operations.json"), "w") as f:
+        json.dump(ops, f, indent=1)
+
+
+def add_detail_gets(reg, actors):
+    """Every list of entity rows gets a 'get one' next to it: GET <list path>/{<pk>} (detail screens)."""
+    import re
+    from spec import ref
+    by_name = {v: k for k, v in reg.entity_name.items()}
+    for a in actors:
+        existing = {(o["method"], re.sub(r"\{[^}]+\}", "{}", o["path"])) for o in a.ops}
+        added = []
+        for o in a.ops:
+            if o["method"] != "get" or o["resp"] is None:
+                continue
+            r = o["resp"]
+            item = r.get("items", r) if (o["paged"] or r.get("type") == "array") else None
+            if not item or "$ref" not in item:
+                continue
+            name = item["$ref"].rsplit("/", 1)[1]
+            table = by_name.get(name)
+            if not table or not reg.tables[table].pk:
+                continue
+            pk = reg.tables[table].pk.name
+            pk_camel = re.sub(r"_([a-z])", lambda m: m.group(1).upper(), pk)
+            path = o["path"] + "/{" + pk_camel + "}"
+            key = ("get", re.sub(r"\{[^}]+\}", "{}", path))
+            if key in existing or pk_camel in o["path"]:
+                continue
+            existing.add(key)
+            single = name[0].lower() + name[1:]
+            op_id = "get" + name
+            if any(x["op_id"] == op_id for x in a.ops + added):
+                op_id = "get" + name + "Of" + "".join(p.title() for p in re.findall(r"[a-z]+", o["path"].split("/")[1]))
+            added.append(dict(o, path=path, op_id=op_id, summary="One %s (detail)" % single, resp=ref(name),
+                              paged=False, query=[], description=None, x={}))
+        a.ops.extend(added)
+
+
 def main():
     reg = Registry(os.path.join(ROOT, "tools/er_v5_school.dsl"))
     views.define(reg)
     actors = actor_defs.build(reg)
+    add_detail_gets(reg, actors)
     os.makedirs(OUT, exist_ok=True)
     total = 0
     routes = {}
@@ -71,6 +170,7 @@ def main():
     dump(bundle, os.path.join(OUT, "school-app-api.yaml"))
     with open(os.path.join(OUT, "role-routes.json"), "w") as f:
         json.dump(routes, f, indent=2)
+    write_metadata(reg, actors)
     print("total %d operations, %d schemas in the bundle" % (total, len(bundle["components"]["schemas"])), file=sys.stderr)
 
 

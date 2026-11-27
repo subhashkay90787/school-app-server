@@ -1,6 +1,5 @@
 package com.school.app.role.transportmanager;
 
-import com.school.app.role.transportmanager.api.TransportManagerApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class TransportManagerController implements TransportManagerApi {
+public class TransportManagerController extends TransportManagerCrud {
 }

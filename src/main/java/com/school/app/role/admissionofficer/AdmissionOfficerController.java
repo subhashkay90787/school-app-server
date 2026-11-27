@@ -1,6 +1,5 @@
 package com.school.app.role.admissionofficer;
 
-import com.school.app.role.admissionofficer.api.AdmissionOfficerApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class AdmissionOfficerController implements AdmissionOfficerApi {
+public class AdmissionOfficerController extends AdmissionOfficerCrud {
 }

@@ -1,6 +1,5 @@
 package com.school.app.role.security;
 
-import com.school.app.role.security.api.SecurityApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class SecurityController implements SecurityApi {
+public class SecurityController extends SecurityCrud {
 }

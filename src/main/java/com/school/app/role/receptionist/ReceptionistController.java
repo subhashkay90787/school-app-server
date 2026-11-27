@@ -1,6 +1,5 @@
 package com.school.app.role.receptionist;
 
-import com.school.app.role.receptionist.api.ReceptionistApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class ReceptionistController implements ReceptionistApi {
+public class ReceptionistController extends ReceptionistCrud {
 }

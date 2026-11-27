@@ -51,6 +51,11 @@ def define(r):
                         "permissions": "[s]", "features": "[s]", "orgWide": "bo", "permVersion": "b"})
     v("MeContext", {"userId": "b", "firstName": "s", "lastName": "s", "userCategory": "s", "currentSchoolId": "b",
                     "schools": "[SchoolContext]", "pendingConsents": "i", "unreadInbox": "i"})
+    v("ProfileView", {"userId": "b", "firstName": "s", "lastName": "s", "email": "s", "phoneNumber": "s",
+                      "userCategory": "s", "photoUrl": "s", "school": "SchoolContext",
+                      "employee": "E:hr.employee_profile", "teacher": "E:hr.teacher_metadata",
+                      "children": "[ChildSummary]", "student": "E:academics.student", "duties": "[Duty]"},
+      "Name, phone and email are owned by school-auth (edit them at PATCH /api/v1/users/me on the auth server)")
     v("InboxItem", {"notificationId": "b", "title": "s", "body": "s", "category": "s",
                     "severity": "{INFO|ACTION|URGENT|CRITICAL}", "roleTag": "s", "student": "PersonRef",
                     "sentAt": "dt", "readAt": "dt", "requiresAck": "bo", "acknowledgedAt": "dt", "deepLink": "s",

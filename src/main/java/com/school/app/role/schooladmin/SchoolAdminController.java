@@ -1,6 +1,5 @@
 package com.school.app.role.schooladmin;
 
-import com.school.app.role.schooladmin.api.SchoolAdminApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class SchoolAdminController implements SchoolAdminApi {
+public class SchoolAdminController extends SchoolAdminCrud {
 }

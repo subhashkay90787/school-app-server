@@ -1,6 +1,5 @@
 package com.school.app.role.chiefwarden;
 
-import com.school.app.role.chiefwarden.api.ChiefWardenApi;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
  * role module.
  */
 @RestController
-public class ChiefWardenController implements ChiefWardenApi {
+public class ChiefWardenController extends ChiefWardenCrud {
 }
